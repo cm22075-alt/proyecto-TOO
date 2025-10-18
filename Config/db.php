@@ -4,7 +4,7 @@ $usuario = 'root';
 $contrasena = '';          
 $base_datos = 'sigtafmo';
 
-$conexion = new \mysqli($host, $usuario, $contrasena, $base_datos);
+$conexion = new mysqli($host, $usuario, $contrasena, $base_datos);
 
 // Verificar conexión
 if ($conexion->connect_error) {
