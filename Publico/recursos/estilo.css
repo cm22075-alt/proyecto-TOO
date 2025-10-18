@@ -181,13 +181,14 @@ nav {
   max-width: 600px;
   margin: auto;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  animation: fadeIn 0.8s ease-in-out;
 }
 
 .formulario-estudiante h2 {
   margin-bottom: 20px;
   font-size: 28px;
   text-align: center;
-  padding: 40px;
+  padding: 50px;
 }
 
 .formulario-estudiante label {

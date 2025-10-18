@@ -33,7 +33,7 @@
 
     <div class="botones-formulario">
       <button type="submit" class="boton-guardar">Guardar</button>
-      <a href="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=listar" class="boton-volver">← Volver</a>
+      <a href="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=listar" class="boton-volver">Cancelar</a>
     </div>
   </form>
 </section>
