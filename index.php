@@ -1,7 +1,11 @@
 <?php
-$modulo = $_GET['modulo'] ?? 'estudiantes';
+$modulo = $_GET['modulo'] ?? 'dashboard';
 $accion = $_GET['accion'] ?? 'listar';
 
+if ($modulo === 'dashboard') {
+  include_once('vistas/dashboard.php');
+  return;
+}
 // Mapeo de nombres de controlador
 $archivo = "controladores/" . ucfirst($modulo) . "Controller.php";
 

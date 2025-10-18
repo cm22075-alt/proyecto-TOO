@@ -15,9 +15,6 @@ if (!isset($estudiantes)) {
   <title>Listado de Estudiantes</title>
   <link rel="stylesheet" href="../../publico/recursos/estilo.css">
 </head>
-<a href="/proyecto-TOO/index.php" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
-  🏠 Volver al inicio
-</a>
 
 <body>
   <h2>Estudiantes Registrados</h2>
