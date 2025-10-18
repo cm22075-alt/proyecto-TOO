@@ -2,12 +2,15 @@
 include_once(dirname(__DIR__) . '/config/db.php');
 include_once(dirname(__DIR__) . '/modelos/Estudiante.php');
 
+
+
+
 //bloque temporal para verificar las rutas
-echo '<pre>';
-echo 'PHP_SELF: ' . $_SERVER['PHP_SELF'] . "\n";
-echo 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . "\n";
-echo 'BASE_URL: ' . BASE_URL . "\n";
-echo '</pre>';
+// echo '<pre>';
+// echo 'PHP_SELF: ' . $_SERVER['PHP_SELF'] . "\n";
+// echo 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . "\n";
+// echo 'BASE_URL: ' . BASE_URL . "\n";
+// echo '</pre>';
 
 
 
@@ -17,12 +20,19 @@ $accion = $_GET['accion'] ?? 'listar';
 switch ($accion) {
   case 'listar':
     $estudiantes = $estudianteModelo->listar();
+    //Layout para el encabezado y pie de pagina
+    $titulo = 'Estudiantes';
+    $vista = dirname(__DIR__) . '/vistas/estudiantes/listarEstudiantes.php';
+    include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
     include_once(dirname(__DIR__) . '/vistas/estudiantes/listarEstudiantes.php');
     break;
 
   case 'crear':
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $estudianteModelo->crear($_POST);
+      $titulo = 'Registrar Estudiante';
+      $vista = dirname(__DIR__) . '/vistas/estudiantes/crearEstudiantes.php';
+      include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
       header("Location: " . BASE_URL . "/index.php?modulo=estudiantes&accion=listar");
       exit;
     } else {
@@ -36,7 +46,6 @@ switch ($accion) {
       echo "ID no proporcionado.";
       exit;
     }
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $estudianteModelo->actualizar($id, $_POST);
       header("Location: " . BASE_URL . "/index.php?modulo=estudiantes&accion=listar");
@@ -44,6 +53,9 @@ switch ($accion) {
     } else {
       $estudiante = $estudianteModelo->obtener($id);
       include_once(dirname(__DIR__) . '/vistas/estudiantes/editarEstudiantes.php');
+      $titulo = 'Registrar Estudiante';
+      $vista = dirname(__DIR__) . '/vistas/estudiantes/editarEstudiantes.php';
+      include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
     }
     break;
 

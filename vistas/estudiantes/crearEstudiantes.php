@@ -6,21 +6,36 @@
 <head>
   <meta charset="UTF-8">
   <title>Registrar Estudiante</title>
-  <link rel="stylesheet" href="../../publico/recursos/estilo.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>/publico/recursos/estilo.css">
 </head>
+
 <body>
-<h2>Crear Estudiante</h2>
-<form method="POST" action="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=crear">
-  Carnet: <input type="text" name="carnet"><br>
-  Nombre: <input type="text" name="nombre"><br>
-  Apellido: <input type="text" name="apellido"><br>
-  Email: <input type="email" name="email"><br>
-  Estado: <select name="estado">
-    <option value="1">Activo</option>
-    <option value="0">Inactivo</option>
-  </select><br>
-  <button type="submit">Guardar</button>
-</form>
-    <a href="../index.php?modulo=estudiantes&accion=listar">← Volver</a>
+<section class="formulario-estudiante">
+  <h2>Registrar Estudiante</h2>
+  <form method="POST" action="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=crear">
+    <label>Carnet:</label>
+    <input type="text" name="carnet" required>
+
+    <label>Nombre:</label>
+    <input type="text" name="nombre" required>
+
+    <label>Apellido:</label>
+    <input type="text" name="apellido" required>
+
+    <label>Email:</label>
+    <input type="email" name="email" required>
+
+    <label>Estado:</label>
+    <select name="estado">
+      <option value="1">Activo</option>
+      <option value="0">Inactivo</option>
+    </select>
+
+    <div class="botones-formulario">
+      <button type="submit" class="boton-guardar">Guardar</button>
+      <a href="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=listar" class="boton-volver">← Volver</a>
+    </div>
+  </form>
+</section>
 </body>
 </html>

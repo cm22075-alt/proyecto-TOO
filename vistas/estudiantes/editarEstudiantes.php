@@ -5,22 +5,37 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Registrar Estudiante</title>
-  <link rel="stylesheet" href="../../publico/recursos/estilo.css">
+  <title>Editar Estudiante</title>
+  <link rel="stylesheet" href="<?= BASE_URL ?>/publico/recursos/estilos.css">
 </head>
+
 <body>
-<h2>Editar Estudiante</h2>
-<form method="POST" action="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=editar&id=<?= $estudiante['id_estudiante'] ?>">
-  Carnet: <input type="text" name="carnet" value="<?= $estudiante['carnet'] ?>"><br>
-  Nombre: <input type="text" name="nombre" value="<?= $estudiante['nombre'] ?>"><br>
-  Apellido: <input type="text" name="apellido" value="<?= $estudiante['apellido'] ?>"><br>
-  Email: <input type="email" name="email" value="<?= $estudiante['email'] ?>"><br>
-  Estado: <select name="estado">
+<section class="formulario-estudiante">
+<h2 class="titulo-formulario">✏️ Editar Estudiante</h2>
+<form class="formulario-estudiante" method="POST" action="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=editar&id=<?= $estudiante['id_estudiante'] ?>">
+  <label>Carnet:</label>
+  <input type="text" name="carnet" value="<?= $estudiante['carnet'] ?>" required>
+
+  <label>Nombre:</label>
+  <input type="text" name="nombre" value="<?= $estudiante['nombre'] ?>" required>
+
+  <label>Apellido:</label>
+  <input type="text" name="apellido" value="<?= $estudiante['apellido'] ?>" required>
+
+  <label>Email:</label>
+  <input type="email" name="email" value="<?= $estudiante['email'] ?>" required>
+
+  <label>Estado:</label>
+  <select name="estado">
     <option value="1" <?= $estudiante['estado'] ? 'selected' : '' ?>>Activo</option>
     <option value="0" <?= !$estudiante['estado'] ? 'selected' : '' ?>>Inactivo</option>
-  </select><br>
-  <button type="submit">Actualizar</button>
+  </select>
+
+  <div class="botones-formulario">
+    <button type="submit" class="boton-guardar">Actualizar</button>
+    <a href="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=listar" class="boton-volver">Cancelar</a>
+  </div>
 </form>
-    <a href="../index.php?modulo=estudiantes&accion=listar">← Volver</a>
+</section>
 </body>
 </html>
