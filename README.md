@@ -1,7 +1,7 @@
 /SIGTAFMO/
 ├── /config/                # Configuración global
 │   └── db.php              # Conexión a la base de datos
-│   └── constantes.php      # Constantes del sistema (roles, estados)
+│  
 │
 ├── /core/                  # Núcleo del sistema
 │   └── Router.php          # Enrutador básico
@@ -17,7 +17,7 @@
 │   └── Auditoria.php
 │
 ├── /controllers/           # CONTROLADOR: lógica de negocio
-│   ├── EstudianteController.php
+│   ├── EstudiantesController.php
 │   ├── TutorController.php
 │   ├── AsignaturaController.php
 │   ├── UsuarioController.php
@@ -25,7 +25,7 @@
 │   ├── ReporteController.php
 │   └── AuthController.php
 │
-├── /views/                 # VISTA: interfaz de usuario
+├── /vistas/                 # VISTA: interfaz de usuario
 │   ├── /estudiantes/
 │   │   ├── crear.php
 │   │   ├── editar.php
@@ -37,10 +37,10 @@
 │   ├── /usuarios/
 │   ├── /auth/
 │   │   └── login.php
-│   ├── /layouts/
+│   ├── /plantillas/
 │   │   ├── header.php
 │   │   ├── footer.php
-│   │   └── navbar.php
+│   │   └── menu.php
 │   └── dashboard.php
 │
 ├── /public/                # Recursos públicos
@@ -51,3 +51,15 @@
 │   │   └── logo.png
 │
 └── README.md               # Documentación del proyecto
+
+Base de datos compartida
+
+Para importar la base de datos:
+
+1. Abre phpMyAdmin
+2. Crea una base llamada `sigtafmo`
+3. Ve a la pestaña **Importar**
+4. Selecciona el archivo `database/proyecto-TOO.sql`
+5. Haz clic en **Continuar**
+
+Ya tendrás acceso a las tablas y datos compartidos.
