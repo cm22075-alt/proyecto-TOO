@@ -1,4 +1,6 @@
 <?php
+include_once dirname(__DIR__) . '/config/db.php';
+
 class Estudiante {
   private $conexion;
 
@@ -16,7 +18,8 @@ class Estudiante {
 
   public function listar() {
     $sql = "SELECT * FROM estudiante WHERE estado = 1 ORDER BY creado_en DESC";
-    return $this->conexion->query($sql);
+    $resultado = $this->conexion->query($sql);
+    return $resultado ?: null;
   }
 
   public function carnetExiste($carnet) {

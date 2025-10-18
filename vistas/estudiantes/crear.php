@@ -7,7 +7,7 @@
 </head>
 <body>
   <h2>Registrar Estudiante</h2>
-  <form method="POST" action="../../controladores/EstudianteControlador.php?accion=crear">
+  <form method="POST" action="../../controladores/EstudiantesController.php?accion=crear">
     <input type="text" name="carnet" placeholder="Carnet" required>
     <input type="text" name="nombre" placeholder="Nombre" required>
     <input type="text" name="apellido" placeholder="Apellido" required>
