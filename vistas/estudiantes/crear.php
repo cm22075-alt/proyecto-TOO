@@ -1,3 +1,5 @@
+<?php include_once(dirname(__DIR__) . '/plantillas/menu.php'); ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,13 +9,18 @@
 </head>
 <body>
   <h2>Registrar Estudiante</h2>
-  <form method="POST" action="../../controladores/EstudiantesController.php?accion=crear">
-    <input type="text" name="carnet" placeholder="Carnet" required>
-    <input type="text" name="nombre" placeholder="Nombre" required>
-    <input type="text" name="apellido" placeholder="Apellido" required>
-    <input type="email" name="email" placeholder="Correo electrónico" required>
-    <input type="submit" value="Registrar">
+  <h2><?= isset($estudiante) ? 'Editar' : 'Crear' ?> estudiante</h2>
+  <form method="POST" action="/proyecto-TOO/index.php?modulo=estudiantes&accion=crear">
+    <input name="carnet" placeholder="Carnet" value="<?= $estudiante['carnet'] ?? '' ?>"><br>
+    <input name="nombre" placeholder="Nombre" value="<?= $estudiante['nombre'] ?? '' ?>"><br>
+    <input name="apellido" placeholder="Apellido" value="<?= $estudiante['apellido'] ?? '' ?>"><br>
+    <input name="email" placeholder="Email" value="<?= $estudiante['email'] ?? '' ?>"><br>
+    <select name="estado">
+      <option value="activo" <?= ($estudiante['estado'] ?? '') === 'activo' ? 'selected' : '' ?>>Activo</option>
+      <option value="inactivo" <?= ($estudiante['estado'] ?? '') === 'inactivo' ? 'selected' : '' ?>>Inactivo</option>
+    </select><br>
+    <button type="submit">Guardar</button>
   </form>
-  <script src="../../publico/recursos/script.js"></script>
+    <a href="../index.php?modulo=estudiantes&accion=listar">← Volver</a>
 </body>
 </html>

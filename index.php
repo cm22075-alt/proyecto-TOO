@@ -14,7 +14,14 @@ include_once CONFIG.'db.php';
 
 // Obtener ruta solicitada
 $modulo = $_GET['modulo'] ?? 'estudiantes';
-$accion = $_GET['accion'] ?? 'listar';
+
+switch ($modulo) {
+    case 'estudiantes':
+      require_once('controladores/EstudiantesController.php');
+      break;
+    default:
+      echo "Módulo no reconocido.";
+  }
 
 // Mapear controlador
 $controladorArchivo = CONTROLADORES . ucfirst($modulo) . 'Controller.php';
