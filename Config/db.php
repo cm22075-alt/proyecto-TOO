@@ -13,4 +13,8 @@ if ($conexion->connect_error) {
 
 // Opcional: establecer codificación UTF-8
 $conexion->set_charset("utf8mb4");
+
+
+define('BASE_URL', '/proyecto-TOO'); // Ruta base del proyecto
 ?>
+

@@ -1,33 +1,14 @@
 <?php
-// Activar errores en desarrollo
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-// Definir rutas base
-define('CONTROLADORES', __DIR__ . '/controladores/');
-define('VISTAS', __DIR__ . '/vistas/');
-define('MODELOS', __DIR__ . '/modelos/');
-define('CONFIG', __DIR__ . '/config/');
-
-// Cargar conexión
-include_once CONFIG.'db.php';
-
-// Obtener ruta solicitada
 $modulo = $_GET['modulo'] ?? 'estudiantes';
+$accion = $_GET['accion'] ?? 'listar';
 
-switch ($modulo) {
-    case 'estudiantes':
-      require_once('controladores/EstudiantesController.php');
-      break;
-    default:
-      echo "Módulo no reconocido.";
-  }
+// Mapeo de nombres de controlador
+$archivo = "controladores/" . ucfirst($modulo) . "Controller.php";
 
-// Mapear controlador
-$controladorArchivo = CONTROLADORES . ucfirst($modulo) . 'Controller.php';
-
-if (file_exists($controladorArchivo)) {
-    include_once $controladorArchivo;
+if (file_exists($archivo)) {
+  include_once($archivo);
 } else {
-    echo "<h2>Error 404: El módulo solicitado no existe.</h2>";
+  echo "<p style='color:red;'>Módulo no encontrado.</p>";
+  echo "<pre>MODULO: $modulo\nACCION: $accion\nARCHIVO: $archivo</pre>";
 }
+
