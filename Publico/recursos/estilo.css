@@ -255,3 +255,157 @@ nav {
   transform: scale(1.1);
 }
 
+/* ESTILO PARA ASIGNATURAS*/
+.seccion-asignaturas {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  color: #2c3e50;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  margin: 20px auto;
+  max-width: 900px;
+}
+
+.seccion-asignaturas h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  text-align: center;
+}
+
+.acciones-superiores-asignatura {
+  margin-bottom: 15px;
+  text-align: right;
+}
+
+.boton-nuevo-asignatura {
+  background-color: #1abc9c;
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.boton-nuevo-asignatura:hover {
+  background-color: #16a085;
+}
+
+.tabla-asignaturas {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.tabla-asignaturas th,
+.tabla-asignaturas td {
+  border: 1px solid #bdc3c7;
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla-asignaturas th {
+  background-color: #34495e;
+  color: white;
+}
+
+.tabla-asignaturas tr:nth-child(even) {
+  background-color: #ecf0f1;
+}
+
+.accion-editar-asignatura,
+.accion-eliminar-asignatura {
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  margin: 0 5px;
+  display: inline-block;
+}
+
+.accion-editar-asignatura {
+  background-color: #3498db;
+  color: white;
+}
+
+.accion-eliminar-asignatura {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.accion-editar-asignatura:hover {
+  background-color: #2980b9;
+}
+
+.accion-eliminar-asignatura:hover {
+  background-color: #c0392b;
+}
+
+/* Formulario crear/editar asignaturas */
+.formulario-asignatura {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  color: #2c3e50;
+  max-width: 600px;
+  margin: 30px auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.formulario-asignatura h2 {
+  margin-bottom: 25px;
+  font-size: 28px;
+  text-align: center;
+}
+
+.formulario-asignatura label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.formulario-asignatura input,
+.formulario-asignatura select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.botones-formulario-asignatura {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.boton-guardar-asignatura {
+  background-color: #1abc9c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.boton-guardar-asignatura:hover {
+  background-color: #16a085;
+}
+
+.boton-volver-asignatura {
+  background-color: #95a5a6;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.boton-volver-asignatura:hover {
+  background-color: #7f8c8d;
+}
