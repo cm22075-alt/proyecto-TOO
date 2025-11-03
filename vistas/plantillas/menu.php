@@ -9,8 +9,10 @@
     <a href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=listar">👨‍🏫 Tutores</a>
     <a href="<?= BASE_URL ?>/index.php?modulo=sesiones&accion=listar">🗓️ Sesiones</a>
     <a href="<?= BASE_URL ?>/index.php?modulo=reportes&accion=listar">📈 Reportes</a>
-    <a href="<?= BASE_URL ?>/index.php?modulo=usuarios&accion=listar">👥 Usuarios</a>
+    <a href="<?= BASE_URL ?>/index.php?modulo=usuarios&accion=listar">👥 Usuarios</a> 
+    <a href="<?= BASE_URL ?>/index.php?modulo=auditoria&accion=listar">🕵️ Auditoría</a>   
   </div>
+  
   <form method="POST" action="<?= BASE_URL ?>/logout.php">
     <button class="logout">Cerrar sesión</button>
   </form>

@@ -2,18 +2,6 @@
 include_once(dirname(__DIR__) . '/config/db.php');
 include_once(dirname(__DIR__) . '/modelos/Estudiante.php');
 
-
-
-
-//bloque temporal para verificar las rutas
-// echo '<pre>';
-// echo 'PHP_SELF: ' . $_SERVER['PHP_SELF'] . "\n";
-// echo 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . "\n";
-// echo 'BASE_URL: ' . BASE_URL . "\n";
-// echo '</pre>';
-
-
-
 $estudianteModelo = new Estudiante($conexion);
 $accion = $_GET['accion'] ?? 'listar';
 

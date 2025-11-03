@@ -376,3 +376,7 @@ nav {
 .icono-inicio:hover {
   transform: scale(1.1);
 }
+
+.titulo-auditoria{
+  color: #000;
+}
