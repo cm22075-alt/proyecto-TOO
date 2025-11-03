@@ -77,7 +77,7 @@
       <a href="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=listar">📚 Asignaturas</a>
       <a href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=listar">👨‍🏫 Tutores</a>
       <a href="<?= BASE_URL ?>/index.php?modulo=sesiones&accion=listar">🗓️ Sesiones</a>
-      <a href="<?= BASE_URL ?>/index.php?modulo=reportes&accion=listar">📈 Reportes</a>
+      <a href="<?= BASE_URL ?>/index.php?modulo=reporteTutor&accion=listar">📈 Reportes</a>
       <a href="<?= BASE_URL ?>/index.php?modulo=usuarios&accion=listar">👥 Usuarios</a>
     </div>
     <form method="POST" action="<?= BASE_URL ?>/logout.php">
