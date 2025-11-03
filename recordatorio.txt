@@ -1,0 +1,11 @@
+index.php
+dashboard.php
+turores, crear, editar, listar
+resultadoReporteTutor
+filtroReporteTutor
+menu
+encabezados
+tutor.php
+ReporteTutor
+TutoresController
+ReporteTutorController
