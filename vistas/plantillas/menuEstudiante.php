@@ -109,26 +109,22 @@
       color: #ecf0f1;
     }
 
-    /* Animación */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Responsivo */
     @media (max-width: 768px) {
       nav.menu {
         flex-direction: column;
         align-items: flex-start;
       }
-
       .nav-links {
         width: 100%;
         justify-content: flex-start;
         flex-wrap: wrap;
         margin-bottom: 10px;
       }
-
       .logout {
         align-self: flex-end;
       }
@@ -143,7 +139,8 @@
       <a href="<?= BASE_URL ?>/index.php">
         <img src="<?= BASE_URL ?>/assets/icono_minerva.png" alt="Inicio" class="icono-inicio">
       </a>
-      <a href="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=listar">📚 Asignaturas</a>
+      <!-- Solo este enlace fue cambiado -->
+      <a href="<?= BASE_URL ?>/index.php?modulo=asignaturasEstudiante&accion=listar">📚 Asignaturas</a>
       <a href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=listar">👨‍🏫 Tutores</a>
       <a href="<?= BASE_URL ?>/index.php?modulo=sesiones&accion=listar">🗓️ Sesiones</a>
     </div>
