@@ -1,4 +1,7 @@
 <?php
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 class ReporteTutor {
   private $conexion;
 
@@ -64,10 +67,10 @@ class ReporteTutor {
 
   public function exportarCSV($id_tutor, $fecha_inicio = null, $fecha_fin = null, $id_asignatura = null) {
     $sesiones = $this->generarReporte($id_tutor, $fecha_inicio, $fecha_fin, $id_asignatura);
-    
+
     $tutorInfo = $this->conexion->query("SELECT nombre, apellido FROM tutor WHERE id_tutor = $id_tutor")->fetch_assoc();
     $nombreTutor = $tutorInfo['nombre'] . ' ' . $tutorInfo['apellido'];
-    
+
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename="reporte_tutor_' . $id_tutor . '_' . date('Y-m-d') . '.csv"');
 
@@ -107,6 +110,12 @@ class ReporteTutor {
   }
 
   public function exportarPDF($id_tutor, $fecha_inicio = null, $fecha_fin = null, $id_asignatura = null) {
+    $autoloadPath = dirname(__DIR__, 1) . '/vendor/autoload.php';
+    if (!file_exists($autoloadPath)) {
+      die("Error: No se encontró dompdf. Por favor instala composer y ejecuta: composer require dompdf/dompdf");
+    }
+    require_once $autoloadPath;
+    
     $sesiones = $this->generarReporte($id_tutor, $fecha_inicio, $fecha_fin, $id_asignatura);
     $estadisticas = $this->obtenerEstadisticas($id_tutor, $fecha_inicio, $fecha_fin, $id_asignatura);
 
@@ -117,22 +126,24 @@ class ReporteTutor {
 <head>
   <meta charset="UTF-8">
   <style>
-    body { font-family: Arial, sans-serif; font-size: 12px; }
-    h1 { color: #2c3e50; text-align: center; }
+    body { font-family: Arial, sans-serif; font-size: 11px; }
+    h1 { color: #2c3e50; text-align: center; font-size: 18px; }
     .header { background-color: #3498db; color: white; padding: 15px; margin-bottom: 20px; }
     .info { margin-bottom: 20px; }
     .info p { margin: 5px 0; }
     .estadisticas { background-color: #ecf0f1; padding: 10px; margin-bottom: 20px; }
+    .estadisticas h3 { margin: 5px 0; font-size: 14px; }
     table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th { background-color: #3498db; color: white; padding: 8px; text-align: left; }
-    td { border: 1px solid #ddd; padding: 8px; }
+    th { background-color: #3498db; color: white; padding: 8px; text-align: left; font-size: 11px; }
+    td { border: 1px solid #ddd; padding: 6px; font-size: 10px; }
     tr:nth-child(even) { background-color: #f2f2f2; }
-    .footer { margin-top: 30px; text-align: center; font-size: 10px; color: #7f8c8d; }
+    .footer { margin-top: 30px; text-align: center; font-size: 9px; color: #7f8c8d; }
+    small { font-size: 9px; color: #7f8c8d; }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1> REPORTE DE SESIONES POR TUTOR</h1>
+    <h1>REPORTE DE SESIONES POR TUTOR</h1>
   </div>
   
   <div class="info">
@@ -145,20 +156,22 @@ class ReporteTutor {
     }
     
     $html .= '</div>
-    <div class="estadisticas">
-    <h3> Estadísticas del Periodo</h3>
+  
+  <div class="estadisticas">
+    <h3>Estadísticas del Periodo</h3>
     <p><strong>Total de sesiones:</strong> ' . $estadisticas['total_sesiones'] . '</p>
     <p><strong>Estudiantes atendidos:</strong> ' . $estadisticas['total_estudiantes'] . '</p>
     <p><strong>Asignaturas impartidas:</strong> ' . $estadisticas['total_asignaturas'] . '</p>
-    </div>
-    <table>
+  </div>
+  
+  <table>
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Fecha y Hora</th>
-        <th>Estudiante</th>
-        <th>Asignatura</th>
-        <th>Observaciones</th>
+        <th style="width: 5%;">ID</th>
+        <th style="width: 15%;">Fecha y Hora</th>
+        <th style="width: 25%;">Estudiante</th>
+        <th style="width: 20%;">Asignatura</th>
+        <th style="width: 35%;">Observaciones</th>
       </tr>
     </thead>
     <tbody>';
@@ -174,22 +187,27 @@ class ReporteTutor {
         <td>' . htmlspecialchars($row['observaciones'] ?? '-') . '</td>
       </tr>';
     }
-    $html .= '</tbody>
-    </table>
-    <div class="footer">
-    <p>Sistema de Gestión de Tutorías Académicas</p>
-    </div>
-    </body>
-    </html>';
-
-    header('Content-Type: application/pdf');
-    header('Content-Disposition: attachment; filename="reporte_tutor_' . $id_tutor . '_' . date('Y-m-d') . '.pdf"');
-
-    $tempHtml = tempnam(sys_get_temp_dir(), 'pdf') . '.html';
-    file_put_contents($tempHtml, $html);
-    passthru("wkhtmltopdf $tempHtml -");
-    unlink($tempHtml);
     
+    $html .= '</tbody>
+  </table>
+  
+  <div class="footer">
+    <p>Sistema de Gestión de Tutorías Académicas - SIGTAFMO</p>
+  </div>
+</body>
+</html>';
+
+    $options = new Options();
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isPhpEnabled', true);
+    $options->set('defaultFont', 'Arial');
+    
+    $dompdf = new Dompdf($options);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    $dompdf->stream('reporte_tutor_' . $id_tutor . '_' . date('Y-m-d') . '.pdf', array('Attachment' => 1));
     
     exit;
   }
