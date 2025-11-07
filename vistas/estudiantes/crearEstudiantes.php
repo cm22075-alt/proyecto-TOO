@@ -12,7 +12,7 @@
 <body>
 <section class="formulario-estudiante">
   <h2>Registrar Estudiante</h2>
-  <form method="POST" action="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=crear">
+  <form method="POST" action="<?= BASE_URL ?>/estudiantes/crear">
     <label>Carnet:</label>
     <input type="text" name="carnet" required>
 
@@ -33,7 +33,7 @@
 
     <div class="botones-formulario">
       <button type="submit" class="boton-guardar">Guardar</button>
-      <a href="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=listar" class="boton-volver">Cancelar</a>
+      <a href="<?= BASE_URL ?>/estudiantes" class="boton-volver">Cancelar</a>
     </div>
   </form>
 </section>

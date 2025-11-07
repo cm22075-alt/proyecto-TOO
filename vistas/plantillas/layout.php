@@ -1,4 +1,4 @@
-<?php include_once(dirname(__DIR__, 2) . '/config/db.php'); ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,9 +9,28 @@
 <body>
   <?php include_once(dirname(__DIR__) . '/plantillas/menu.php'); ?>
   <main class="contenido">
-    <?php include_once($vista); ?>
+    <div class="main-content">
+    <?php 
+    // Asegúrate de que $vista contenga la ruta relativa a la carpeta 'vistas/'
+    
+    if (isset($vista) && $vista) { 
+        // __DIR__ es "vistas/plantillas"
+        // /../ sube a "vistas/"
+        // Luego concatena la ruta de la vista (ej: 'estudiantes/listarEstudiantes.php')
+
+        // CORRECCIÓN CRÍTICA: Usar __DIR__ y mover hacia arriba
+        $ruta_completa_vista = __DIR__ . '/../' . $vista; 
+        
+        if (file_exists($ruta_completa_vista)) {
+            include_once($ruta_completa_vista);
+        } else {
+            // Error si la vista no existe
+            echo "Error: La vista $vista no fue encontrada.";
+        }
+    }
+    ?>
+</div>
   </main>
-  
+  <?php include_once(dirname(__DIR__) . '/plantillas/footer.php'); ?>
 </body>
 </html>
-<?php include_once(dirname(__DIR__) . '/plantillas/footer.php'); ?>

@@ -4,9 +4,19 @@ include_once dirname(__DIR__) . '/config/db.php';
 class Estudiante {
   private $db;
 
-  public function __construct($conexion) {
+  public function __construct() {
+    // Accedemos a la conexión del ámbito global que se define en Config/db.php
+    global $conexion; 
+    
+    // Asignamos la conexión a la propiedad de la clase
     $this->db = $conexion;
-  }
+  
+    
+    // Verificación de la conexión
+    if ($this->db === null || $this->db->connect_error) {
+        die("Error interno: La conexión a la base de datos no está disponible."); 
+    }
+}
 
   public function listar() {
     $sql = "SELECT * FROM estudiante ORDER BY id_estudiante ASC";
@@ -39,7 +49,7 @@ class Estudiante {
   }
 
   public function carnetExiste($carnet) {
-    $stmt = $this->conexion->prepare("SELECT id_estudiante FROM estudiante WHERE carnet = ?");
+    $stmt = $this->db->prepare("SELECT id_estudiante FROM estudiante WHERE carnet = ?");
     $stmt->bind_param("s", $carnet);
     $stmt->execute();
     $resultado = $stmt->get_result();

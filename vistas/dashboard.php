@@ -1,4 +1,4 @@
-<?php include_once(__DIR__ . '/../config/db.php'); ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

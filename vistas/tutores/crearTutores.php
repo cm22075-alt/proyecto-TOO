@@ -98,7 +98,7 @@
   <?php endif; ?>
 
   <div class="formulario-container">
-    <form method="POST" action="<?= BASE_URL ?>/index.php?modulo=tutores&accion=crear">
+    <form method="POST" action="<?= BASE_URL ?>/tutores/crear">
       
       <div class="grupo-formulario">
         <label for="codigo"> Código del Tutor: *</label>
@@ -137,7 +137,7 @@
 
       <div class="botones-formulario">
         <button type="submit" class="boton-guardar">💾 Guardar</button>
-        <a href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=listar" class="boton-cancelar">❌ Cancelar</a>
+        <a href="<?= BASE_URL ?>/tutores" class="boton-cancelar">❌ Cancelar</a>
       </div>
     </form>
   </div>

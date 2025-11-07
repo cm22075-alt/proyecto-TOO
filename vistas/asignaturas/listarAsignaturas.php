@@ -18,11 +18,11 @@ if (!isset($asignaturas)) {
   <h2>📘 Asignaturas Registradas</h2>
   
   <div class="info-registros">
-    <p>📊 Total de asignaturas: <strong><?= $asignaturas->num_rows ?></strong></p>
+    <p>📊 Total de asignaturas: <strong><?= count($asignaturas) ?></strong></p>
   </div>
 
   <div class="acciones-superiores">
-    <a class="boton-nuevo" href="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=crear">➕ Nueva asignatura</a>
+    <a class="boton-nuevo" href="<?= BASE_URL ?>/asignaturas/crear">➕ Nueva asignatura</a>
   </div>
 
   <div class="buscador">
@@ -40,8 +40,8 @@ if (!isset($asignaturas)) {
       </tr>
     </thead>
     <tbody>
-      <?php if ($asignaturas && $asignaturas->num_rows > 0): ?>
-        <?php while ($row = $asignaturas->fetch_assoc()): ?>
+      <?php if (!empty($asignaturas)): ?>
+        <?php foreach ($asignaturas as $row): ?>
           <tr>
             <td><?= $row['id_asignatura'] ?></td>
             <td><?= $row['codigo'] ?></td>
@@ -52,14 +52,14 @@ if (!isset($asignaturas)) {
               </span>
             </td>
             <td class="acciones-celda">
-              <a class="accion-editar" href="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=editar&id=<?= $row['id_asignatura'] ?>">✏️ Editar</a>
-              <a class="accion-eliminar" href="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=eliminar&id=<?= $row['id_asignatura'] ?>" onclick="return confirm('¿Eliminar asignatura?')">🗑️ Eliminar</a>
-              <a class="accion-<?= $row['estado'] ? 'desactivar' : 'activar' ?>" href="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=cambiarEstado&id=<?= $row['id_asignatura'] ?>">
+              <a class="accion-editar" href="<?= BASE_URL ?>/asignaturas/editar?id=<?= $row['id_asignatura'] ?>">✏️ Editar</a>
+              <a class="accion-eliminar" href="<?= BASE_URL ?>/asignaturas/eliminar?id=<?= $row['id_asignatura'] ?>" onclick="return confirm('¿Eliminar asignatura?')">🗑️ Eliminar</a>
+              <a class="accion-<?= $row['estado'] ? 'desactivar' : 'activar' ?>" href="<?= BASE_URL ?>/asignaturas/cambiarEstado?id=<?= $row['id_asignatura'] ?>">
                 <?= $row['estado'] ? '🔒 Desactivar' : '🔓 Activar' ?>
               </a>
             </td>
           </tr>
-        <?php endwhile; ?>
+        <?php endforeach; ?>
       <?php else: ?>
         <tr><td colspan="5">No hay asignaturas registradas.</td></tr>
       <?php endif; ?>
