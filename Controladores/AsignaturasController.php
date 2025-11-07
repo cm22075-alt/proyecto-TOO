@@ -2,6 +2,7 @@
 include_once(dirname(__DIR__) . '/config/db.php');
 include_once(dirname(__DIR__) . '/modelos/Asignatura.php');
 
+
 $asignaturaModelo = new Asignatura($conexion);
 $accion = $_GET['accion'] ?? 'listar';
 
@@ -26,6 +27,9 @@ switch ($accion) {
     $titulo = 'Nueva Asignatura';
     $vista = dirname(__DIR__) . '/vistas/asignaturas/crearAsignaturas.php';
     include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
+    include_once(dirname(__DIR__) . '/modelos/Auditoria.php');
+    $auditoria = new Auditoria($conexion);
+
     break;
 
   case 'editar':

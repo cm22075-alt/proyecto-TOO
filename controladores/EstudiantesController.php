@@ -1,8 +1,10 @@
 <?php
 include_once(dirname(__DIR__) . '/config/db.php');
 include_once(dirname(__DIR__) . '/modelos/Estudiante.php');
+include_once(dirname(__DIR__) . '/modelos/Auditoria.php');
 
 $estudianteModelo = new Estudiante($conexion);
+$auditoria = new Auditoria($conexion);
 $accion = $_GET['accion'] ?? 'listar';
 
 switch ($accion) {
@@ -18,6 +20,9 @@ switch ($accion) {
   case 'crear':
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $estudianteModelo->crear($_POST);
+      // Registrar auditoría
+      $descripcion = "Se creó el estudiante con carnet {$datos['carnet']}";
+      $auditoria->registrar('estudiantes', 'crear', $descripcion, $_SESSION['usuario_id']);
       $titulo = 'Registrar Estudiante';
       $vista = dirname(__DIR__) . '/vistas/estudiantes/crearEstudiantes.php';
       include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
