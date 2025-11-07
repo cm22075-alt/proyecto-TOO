@@ -17,7 +17,7 @@
     </div>
   <?php endif; ?>
 
-  <form method="POST" action="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=editar&id=<?= $asignatura['id_asignatura'] ?>">
+  <form method="POST" action="<?= BASE_URL ?>/asignaturas/editar?id=<?= $asignatura['id_asignatura'] ?>">
     <div class="campo-formulario">
       <label>📝 Código de la asignatura:</label>
       <input type="text" name="codigo" value="<?= $asignatura['codigo'] ?>" placeholder="Ej: MAT101" required>
@@ -30,7 +30,7 @@
 
     <div class="botones-formulario">
       <button type="submit" class="boton-guardar">🔄 Actualizar</button>
-      <a href="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=listar" class="boton-volver">↩️ Volver</a>
+      <a href="<?= BASE_URL ?>/asignaturas" class="boton-volver">↩️ Volver</a>
     </div>
   </form>
 </section>

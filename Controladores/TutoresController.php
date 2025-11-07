@@ -1,66 +1,112 @@
-<?php //Código temporal en lo que se coloca el de la historia de usuario 2
-include_once(dirname(__DIR__) . '/Config/db.php');
-include_once(dirname(__DIR__) . '/Modelos/Tutor.php');
+<?php
+// Controladores/TutoresController.php
 
-$tutorModelo = new Tutor($conexion);
-$accion = $_GET['accion'] ?? 'listar';
+// Incluir el Modelo (Tutor.php)
+require_once __DIR__ . '/../Modelos/Tutor.php'; 
 
-switch ($accion) {
-  case 'listar':
-    $tutores = $tutorModelo->listar();
-    $titulo = 'Tutores';
-    $vista = dirname(__DIR__) . '/vistas/tutores/listarTutores.php';
-    include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
-    break;
 
-  case 'crear':
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $resultado = $tutorModelo->crear($_POST);
-      if ($resultado === true) {
-        header("Location: " . BASE_URL . "/index.php?modulo=tutores&accion=listar");
-        exit;
-      } else {
-        $error = $resultado;
-      }
-    }
-    $titulo = 'Nuevo Tutor';
-    $vista = dirname(__DIR__) . '/vistas/tutores/crearTutores.php';
-    include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
-    break;
+class TutoresController // ¡Nombre de clase correcto para el Router!
+{
+    private $modelo;
 
-  case 'editar':
-    $id = $_GET['id'] ?? null;
-    if (!$id) { echo "ID no proporcionado."; exit; }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $resultado = $tutorModelo->actualizar($id, $_POST);
-      if ($resultado === true) {
-        header("Location: " . BASE_URL . "/index.php?modulo=tutores&accion=listar");
-        exit;
-      } else {
-        $error = $resultado;
-      }
+    public function __construct()
+    {
+        // Instanciar el Modelo, donde reside la lógica de DB.
+        $this->modelo = new Tutor();
     }
 
-    $tutor = $tutorModelo->obtener($id);
-    $titulo = 'Editar Tutor';
-    $vista = dirname(__DIR__) . '/vistas/tutores/editarTutores.php';
-    include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
-    break;
+    // =======================================================
+    // MÉTODO LISTAR (Ruta: GET /tutores)
+    // =======================================================
+    public function listar()
+    {
+        // 1. Obtener datos del Modelo
+        $tutores = $this->modelo->listar(); 
+        
+        // 2. Cargar vista
+        $titulo = 'Listado de Tutores';
+        
+        // La vista a inyectar en el layout
+        // NOTA: Debes crear este archivo si no existe.
+        $vista = 'tutores/listarTutores.php'; 
+        
+        require __DIR__ . '/../vistas/plantillas/layout.php'; 
+    }
 
-  case 'eliminar':
-    $id = $_GET['id'] ?? null;
-    if ($id) $tutorModelo->eliminar($id);
-    header("Location: " . BASE_URL . "/index.php?modulo=tutores&accion=listar");
-    exit;
+    // =======================================================
+    // MÉTODO CREAR (Ruta: GET/POST /tutores/crear)
+    // =======================================================
+    public function crear()
+    {
+        $titulo = 'Nuevo Tutor';
+        $error = null;
 
-  case 'cambiarEstado':
-    $id = $_GET['id'] ?? null;
-    if ($id) $tutorModelo->cambiarEstado($id);
-    header("Location: " . BASE_URL . "/index.php?modulo=tutores&accion=listar");
-    exit;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $resultado = $this->modelo->crear($_POST);
+            
+            if ($resultado === true) {
+                header("Location: " . BASE_URL . "/tutores"); 
+                exit;
+            } else {
+                $error = $resultado;
+            }
+        }
+        
+        $vista = 'tutores/crearTutores.php';
+        require __DIR__ . '/../vistas/plantillas/layout.php';
+    }
 
-  default:
-    echo "Acción no reconocida.";
+    // =======================================================
+    // MÉTODO EDITAR (Ruta: GET/POST /tutores/editar)
+    // =======================================================
+    public function editar()
+    {
+        // Usamos $_GET para obtener el ID, ya que el Router debe pasarlo como parámetro (ej: /tutores/editar?id=X)
+        $id = $_GET['id'] ?? null; 
+        if (!$id) {
+            header("Location: " . BASE_URL . "/tutores"); 
+            exit;
+        }
+        
+        $error = null;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $resultado = $this->modelo->actualizar($id, $_POST);
+            
+            if ($resultado === true) {
+                header("Location: " . BASE_URL . "/tutores");
+                exit;
+            } else {
+                $error = $resultado;
+            }
+        }
+
+        $tutor = $this->modelo->obtener($id); // Obtiene el dato a editar
+        $titulo = 'Editar Tutor';
+        $vista = 'tutores/editarTutores.php';
+        require __DIR__ . '/../vistas/plantillas/layout.php';
+    }
+
+    // =======================================================
+    // MÉTODOS DE ACCIÓN RÁPIDA (Eliminar y Cambiar Estado)
+    // =======================================================
+    public function eliminar()
+    {
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            $this->modelo->eliminar($id);
+        }
+        header("Location: " . BASE_URL . "/tutores");
+        exit;
+    }
+    
+    public function cambiarEstado()
+    {
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            $this->modelo->cambiarEstado($id);
+        }
+        header("Location: " . BASE_URL . "/tutores");
+        exit;
+    }
 }
-?>

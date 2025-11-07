@@ -22,8 +22,8 @@ if (!isset($tutores)) {
   </div>
 
   <div class="acciones-superiores">
-    <a class="boton-nuevo" href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=crear">➕ Nuevo tutor</a>
-    <a class="boton-nuevo" href="<?= BASE_URL ?>/index.php?modulo=reporteTutor&accion=listar" style="background-color: #9b59b6;">📊 Reporte por Tutor</a>
+    <a class="boton-nuevo" href="<?= BASE_URL ?>/tutores/crear">➕ Nuevo tutor</a>
+    <a class="boton-nuevo" href="<?= BASE_URL ?>/tutores" style="background-color: #9b59b6;">📊 Reporte por Tutor</a>
   </div>
 
   <div class="buscador">
@@ -57,9 +57,9 @@ if (!isset($tutores)) {
               </span>
             </td>
             <td class="acciones-celda">
-              <a class="accion-editar" href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=editar&id=<?= $row['id_tutor'] ?>">✏️ Editar</a>
-              <a class="accion-eliminar" href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=eliminar&id=<?= $row['id_tutor'] ?>" onclick="return confirm('¿Eliminar tutor?')">🗑️ Eliminar</a>
-              <a class="accion-<?= $row['estado'] ? 'desactivar' : 'activar' ?>" href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=cambiarEstado&id=<?= $row['id_tutor'] ?>">
+              <a class="accion-editar" href="<?= BASE_URL ?>/tutores/editar?id=<?= $row['id_tutor'] ?>">✏️ Editar</a>
+              <a class="accion-eliminar" href="<?= BASE_URL ?>/tutores/eliminar?id=<?= $row['id_tutor'] ?>" onclick="return confirm('¿Eliminar tutor?')">🗑️ Eliminar</a>
+              <a class="accion-<?= $row['estado'] ? 'desactivar' : 'activar' ?>" href="<?= BASE_URL ?>/tutores/cambiarEstado?id=<?= $row['id_tutor'] ?>">
                 <?= $row['estado'] ? '🔒 Desactivar' : '🔓 Activar' ?>
               </a>
             </td>

@@ -110,7 +110,7 @@
       <strong>ID del Tutor:</strong> <?= $tutor['id_tutor'] ?>
     </div>
 
-    <form method="POST" action="<?= BASE_URL ?>/index.php?modulo=tutores&accion=editar&id=<?= $tutor['id_tutor'] ?>">
+    <form method="POST" action="<?= BASE_URL ?>/tutores/editar?id=<?= $tutor['id_tutor'] ?>">
       
       <div class="grupo-formulario">
         <label for="codigo"> Código del Tutor: *</label>
@@ -149,7 +149,7 @@
 
       <div class="botones-formulario">
         <button type="submit" class="boton-actualizar">💾 Actualizar</button>
-        <a href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=listar" class="boton-cancelar">❌ Cancelar</a>
+        <a href="<?= BASE_URL ?>/tutores" class="boton-cancelar">❌ Cancelar</a>
       </div>
     </form>
   </div>
