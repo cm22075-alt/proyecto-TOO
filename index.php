@@ -127,8 +127,8 @@ $router->get('/usuarios', 'UsuarioController@listar'); //ruta para listar usuari
 $router->get('/usuarios/crear', 'UsuarioController@crear'); //ruta para crear usuarios
 $router->post('/usuarios/crear', 'UsuarioController@crear');   
 
-$router->get('/usuarios/editar', 'UsuarioController@editar'); //ruta para editar usuarios
-$router->post('/usuarios/editar', 'UsuarioController@editar');
+$router->get('/usuarios/editar', 'UsuarioController@actualizar'); //ruta para editar usuarios
+$router->post('/usuarios/editar', 'UsuarioController@actualizar');
 
 $router->get('/usuarios/eliminar', 'UsuarioController@eliminar'); //ruta para eliminar usuarios    
 
