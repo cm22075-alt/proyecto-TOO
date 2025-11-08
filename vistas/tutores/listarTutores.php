@@ -23,7 +23,6 @@ if (!isset($tutores)) {
 
   <div class="acciones-superiores">
     <a class="boton-nuevo" href="<?= BASE_URL ?>/tutores/crear">➕ Nuevo tutor</a>
-    <a class="boton-nuevo" href="<?= BASE_URL ?>/tutores" style="background-color: #9b59b6;">📊 Reporte por Tutor</a>
   </div>
 
   <div class="buscador">
