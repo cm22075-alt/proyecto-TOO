@@ -1,4 +1,37 @@
 <?php
+
+include_once(dirname(__DIR__) . '/config/db.php');
+include_once(dirname(__DIR__) . '/modelos/Estudiante.php');
+include_once(dirname(__DIR__) . '/modelos/Auditoria.php');
+
+$estudianteModelo = new Estudiante($conexion);
+$auditoria = new Auditoria($conexion);
+$accion = $_GET['accion'] ?? 'listar';
+
+switch ($accion) {
+  case 'listar':
+    $estudiantes = $estudianteModelo->listar();
+    //Layout para el encabezado y pie de pagina
+    $titulo = 'Estudiantes';
+    $vista = dirname(__DIR__) . '/vistas/estudiantes/listarEstudiantes.php';
+    include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
+    include_once(dirname(__DIR__) . '/vistas/estudiantes/listarEstudiantes.php');
+    break;
+
+  case 'crear':
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $estudianteModelo->crear($_POST);
+      // Registrar auditoría
+      $descripcion = "Se creó el estudiante con carnet {$datos['carnet']}";
+      $auditoria->registrar('estudiantes', 'crear', $descripcion, $_SESSION['usuario_id']);
+      $titulo = 'Registrar Estudiante';
+      $vista = dirname(__DIR__) . '/vistas/estudiantes/crearEstudiantes.php';
+      include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
+      header("Location: " . BASE_URL . "/index.php?modulo=estudiantes&accion=listar");
+      exit;
+    } else {
+      include_once(dirname(__DIR__) . '/vistas/estudiantes/crearEstudiantes.php');
+
 // Incluir el Modelo Estudiante (el Modelo es responsable de la DB)
 require_once __DIR__ . '/../Modelos/Estudiante.php';
 
@@ -11,6 +44,7 @@ class EstudiantesController
         // 1. Instanciar el Modelo. 
         // El constructor de Estudiante se encarga de obtener la conexión global ($conexion).
         $this->modelo = new Estudiante();
+
     }
 
     // =======================================================

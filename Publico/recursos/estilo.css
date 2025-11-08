@@ -380,3 +380,217 @@ nav {
 .titulo-auditoria{
   color: #000;
 }
+
+/*estilo para las exportaciones CVS*/
+.filtros-reporte {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.filtros-reporte label {
+  font-weight: bold;
+}
+
+.tabla-estudiantes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-estudiantes th, .tabla-estudiantes td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.tabla-estudiantes th {
+  background-color: #f4f4f4;
+}
+
+.titulo-auditoria {
+  color: #000;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/*estilo para las sesiones*/
+.tabla-sesion table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-sesion th, .tabla-sesion td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.tabla-sesion th {
+  background-color: #f4f4f4;
+}
+
+.boton-agregar {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  background-color: #28a745;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.boton-editar, .boton-eliminar {
+  margin: 0 4px;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.boton-editar {
+  color: #007bff;
+}
+
+.boton-eliminar {
+  color: #dc3545;
+}
+/*estilo para sesiones top*/
+.filtros-reporte {
+  margin: 20px 0;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.filtros-reporte label {
+  font-weight: bold;
+}
+
+.filtros-reporte button {
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+/* === Estilo para módulo de sesiones === */
+.tabla-sesion {
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin: 40px auto;
+  max-width: 1200px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.tabla-sesion h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.filtros-reporte {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+.filtros-reporte label {
+  font-weight: bold;
+  color: #34495e;
+}
+
+.filtros-reporte input,
+.filtros-reporte select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.filtros-reporte button,
+.boton-agregar {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.filtros-reporte button:hover,
+.boton-agregar:hover {
+  background-color: #2980b9;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+table th {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.boton-editar,
+.boton-eliminar {
+  padding: 6px 10px;
+  margin: 0 2px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.boton-editar {
+  background-color: #f1c40f;
+  color: #fff;
+}
+
+.boton-eliminar {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.boton-editar:hover {
+  background-color: #d4ac0d;
+}
+
+.boton-eliminar:hover {
+  background-color: #c0392b;
+}
+
+ul {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+canvas {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}
