@@ -32,8 +32,8 @@ switch ($accion) {
     } else {
       include_once(dirname(__DIR__) . '/vistas/estudiantes/crearEstudiantes.php');
 
-// Incluir el Modelo Estudiante (el Modelo es responsable de la DB)
-require_once __DIR__ . '/../Modelos/Estudiante.php';
+    // Incluir el Modelo Estudiante (el Modelo es responsable de la DB)
+    require_once __DIR__ . '/../Modelos/Estudiante.php';
 
 class EstudiantesController
 {
@@ -126,4 +126,5 @@ class EstudiantesController
         header("Location: " . BASE_URL . "/estudiantes");
         exit;
     }
+}
 }
