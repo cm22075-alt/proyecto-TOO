@@ -105,7 +105,10 @@ $router->get('/sesiones/cambiarEstado', 'SesionesController@cambiarEstado'); //r
 
 //* Rutas para Reportes
 
-$router->get('/reportes', 'ReportesController@listar'); //ruta para listar reportes
+   $router->get('/reportes', 'ReporteTutorController@listar');
+   $router->get('/reportes/generar', 'ReporteTutorController@generar');
+   $router->get('/reportes/exportar_csv', 'ReporteTutorController@exportar_csv');
+   $router->get('/reportes/exportar_pdf', 'ReporteTutorController@exportar_pdf');
 
 $router->get('/reportes/crear', 'ReportesController@crear'); //ruta para crear reportes
 $router->post('/reportes/crear', 'ReportesController@crear');

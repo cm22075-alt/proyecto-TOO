@@ -1,15 +1,26 @@
 <?php
+// Modelos/ReporteTutor.php
+
+require_once __DIR__ . '/../Config/db.php';
+
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
 class ReporteTutor {
-  private $conexion;
+  private $db;
 
-  public function __construct($conexion) {
-    $this->conexion = $conexion;
+  public function __construct() {
+    global $conexion;
+    $this->db = $conexion;
+
+    if ($this->db === null || $this->db->connect_error) {
+      die("Error de conexión: La base de datos no está disponible en ReporteTutor.");
+    }
   }
 
   public function generarReporte($id_tutor, $fecha_inicio = null, $fecha_fin = null, $id_asignatura = null) {
+    $id_tutor = (int)$id_tutor; // Sanitizar
+    
     $sql = "SELECT 
               s.id_sesion,
               s.fecha_hora,
@@ -29,21 +40,24 @@ class ReporteTutor {
             WHERE s.id_tutor = $id_tutor";
 
     if ($fecha_inicio && $fecha_fin) {
-      $fecha_inicio = $this->conexion->real_escape_string($fecha_inicio);
-      $fecha_fin = $this->conexion->real_escape_string($fecha_fin);
+      $fecha_inicio = $this->db->real_escape_string($fecha_inicio);
+      $fecha_fin = $this->db->real_escape_string($fecha_fin);
       $sql .= " AND DATE(s.fecha_hora) BETWEEN '$fecha_inicio' AND '$fecha_fin'";
     }
     
     if ($id_asignatura) {
+      $id_asignatura = (int)$id_asignatura;
       $sql .= " AND s.id_asignatura = $id_asignatura";
     }
     
     $sql .= " ORDER BY s.fecha_hora DESC";
     
-    return $this->conexion->query($sql);
+    return $this->db->query($sql);
   }
 
   public function obtenerEstadisticas($id_tutor, $fecha_inicio = null, $fecha_fin = null, $id_asignatura = null) {
+    $id_tutor = (int)$id_tutor; // Sanitizar
+    
     $sql = "SELECT 
               COUNT(*) AS total_sesiones,
               COUNT(DISTINCT s.id_estudiante) AS total_estudiantes,
@@ -52,23 +66,25 @@ class ReporteTutor {
             WHERE s.id_tutor = $id_tutor";
     
     if ($fecha_inicio && $fecha_fin) {
-      $fecha_inicio = $this->conexion->real_escape_string($fecha_inicio);
-      $fecha_fin = $this->conexion->real_escape_string($fecha_fin);
+      $fecha_inicio = $this->db->real_escape_string($fecha_inicio);
+      $fecha_fin = $this->db->real_escape_string($fecha_fin);
       $sql .= " AND DATE(s.fecha_hora) BETWEEN '$fecha_inicio' AND '$fecha_fin'";
     }
     
     if ($id_asignatura) {
+      $id_asignatura = (int)$id_asignatura;
       $sql .= " AND s.id_asignatura = $id_asignatura";
     }
     
-    $resultado = $this->conexion->query($sql);
+    $resultado = $this->db->query($sql);
     return $resultado->fetch_assoc();
   }
 
   public function exportarCSV($id_tutor, $fecha_inicio = null, $fecha_fin = null, $id_asignatura = null) {
+    $id_tutor = (int)$id_tutor; // Sanitizar
     $sesiones = $this->generarReporte($id_tutor, $fecha_inicio, $fecha_fin, $id_asignatura);
 
-    $tutorInfo = $this->conexion->query("SELECT nombre, apellido FROM tutor WHERE id_tutor = $id_tutor")->fetch_assoc();
+    $tutorInfo = $this->db->query("SELECT nombre, apellido FROM tutor WHERE id_tutor = $id_tutor")->fetch_assoc();
     $nombreTutor = $tutorInfo['nombre'] . ' ' . $tutorInfo['apellido'];
 
     header('Content-Type: text/csv; charset=utf-8');
@@ -76,13 +92,16 @@ class ReporteTutor {
 
     $output = fopen('php://output', 'w');
 
+    // BOM para UTF-8
     fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
 
+    // Encabezados del reporte
     fputcsv($output, ['REPORTE DE SESIONES POR TUTOR']);
     fputcsv($output, ['Tutor:', $nombreTutor]);
     fputcsv($output, ['Fecha de generación:', date('Y-m-d H:i:s')]);
     fputcsv($output, []); 
 
+    // Encabezados de la tabla
     fputcsv($output, [
       'ID Sesión',
       'Fecha y Hora',
@@ -93,6 +112,7 @@ class ReporteTutor {
       'Observaciones'
     ]);
 
+    // Datos
     while ($row = $sesiones->fetch_assoc()) {
       fputcsv($output, [
         $row['id_sesion'],
@@ -101,7 +121,7 @@ class ReporteTutor {
         $row['estudiante_nombre'] . ' ' . $row['estudiante_apellido'],
         $row['asignatura_codigo'],
         $row['asignatura_nombre'],
-        $row['observaciones']
+        $row['observaciones'] ?? '-'
       ]);
     }
     
@@ -110,17 +130,20 @@ class ReporteTutor {
   }
 
   public function exportarPDF($id_tutor, $fecha_inicio = null, $fecha_fin = null, $id_asignatura = null) {
-    $autoloadPath = dirname(__DIR__, 1) . '/vendor/autoload.php';
+    // Cargar Dompdf desde vendor
+    $autoloadPath = dirname(__DIR__) . '/vendor/autoload.php';
     if (!file_exists($autoloadPath)) {
       die("Error: No se encontró dompdf. Por favor instala composer y ejecuta: composer require dompdf/dompdf");
     }
     require_once $autoloadPath;
     
+    $id_tutor = (int)$id_tutor; // Sanitizar
     $sesiones = $this->generarReporte($id_tutor, $fecha_inicio, $fecha_fin, $id_asignatura);
     $estadisticas = $this->obtenerEstadisticas($id_tutor, $fecha_inicio, $fecha_fin, $id_asignatura);
 
-    $tutorInfo = $this->conexion->query("SELECT nombre, apellido, especialidad FROM tutor WHERE id_tutor = $id_tutor")->fetch_assoc();
+    $tutorInfo = $this->db->query("SELECT nombre, apellido, especialidad FROM tutor WHERE id_tutor = $id_tutor")->fetch_assoc();
 
+    // Generar HTML para el PDF
     $html = '<!DOCTYPE html>
 <html>
 <head>
@@ -181,9 +204,9 @@ class ReporteTutor {
         <td>' . $row['id_sesion'] . '</td>
         <td>' . date('d/m/Y H:i', strtotime($row['fecha_hora'])) . '</td>
         <td>' . htmlspecialchars($row['estudiante_nombre'] . ' ' . $row['estudiante_apellido']) . '<br>
-            <small>' . $row['carnet'] . '</small></td>
+            <small>' . htmlspecialchars($row['carnet']) . '</small></td>
         <td>' . htmlspecialchars($row['asignatura_nombre']) . '<br>
-            <small>' . $row['asignatura_codigo'] . '</small></td>
+            <small>' . htmlspecialchars($row['asignatura_codigo']) . '</small></td>
         <td>' . htmlspecialchars($row['observaciones'] ?? '-') . '</td>
       </tr>';
     }
@@ -197,19 +220,21 @@ class ReporteTutor {
 </body>
 </html>';
 
+    // Configurar opciones de Dompdf
     $options = new Options();
     $options->set('isHtml5ParserEnabled', true);
     $options->set('isPhpEnabled', true);
     $options->set('defaultFont', 'Arial');
     
+    // Generar PDF
     $dompdf = new Dompdf($options);
     $dompdf->loadHtml($html);
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
+    // Descargar PDF
     $dompdf->stream('reporte_tutor_' . $id_tutor . '_' . date('Y-m-d') . '.pdf', array('Attachment' => 1));
     
     exit;
   }
 }
-?>
