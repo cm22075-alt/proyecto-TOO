@@ -73,14 +73,13 @@
 <body>
   <nav>
     <div class="nav-links">
-            <a href="<?= BASE_URL ?>/estudiantes">📋 Estudiantes</a>
-            <a href="<?= BASE_URL ?>/asignaturas">📚 Asignaturas</a>
-            <a href="<?= BASE_URL ?>/tutores">👨‍🏫 Tutores</a>
-            <a href="<?= BASE_URL ?>/sesiones">🗓️ Sesiones</a>
-            <a href="<?= BASE_URL ?>/reportes">📈 Reportes</a>
-            <a href="<?= BASE_URL ?>/usuarios">👥 Usuarios</a>
-            <a href="<?= BASE_URL ?>/auditoria">🕵️ Auditoría</a>
-        </div>
+      <a href="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=listar">📋 Estudiantes</a>
+      <a href="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=listar">📚 Asignaturas</a>
+      <a href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=listar">👨‍🏫 Tutores</a>
+      <a href="<?= BASE_URL ?>/index.php?modulo=sesion&accion=listar">🗓️ Sesiones</a>
+      <a href="<?= BASE_URL ?>/index.php?modulo=reporteTutor&accion=listar">📈 Reportes</a>
+      <a href="<?= BASE_URL ?>/index.php?modulo=usuarios&accion=listar">👥 Usuarios</a>
+    </div>
     <form method="POST" action="<?= BASE_URL ?>/logout.php">
       <button class="logout">Cerrar sesión</button>
     </form>

@@ -3,7 +3,7 @@
 // Asegúrate de que la ruta sea correcta desde este archivo
 require_once __DIR__ . '/../nucleo/Auth.php';
 // Asegurar que BASE_URL esté disponible para las redirecciones
-require_once __DIR__ . '/../Config/db.php';
+require_once __DIR__ . '/../config/db.php';
 
 class AccesoController
 {

@@ -1,21 +1,8 @@
-<?php include_once(dirname(__DIR__) . '/plantillas/menu.php'); ?>
-<?php include_once(dirname(__DIR__, 2) . '/Config/db.php'); ?>
-<?php
-
-include_once(dirname(__DIR__, 2) . '/Modelos/ReporteTutor.php');
-$reporteModelo = new ReporteTutor($conexion);
-$estadisticas = $reporteModelo->obtenerEstadisticas(
-  $_GET['id_tutor'],
-  $_GET['fecha_inicio'] ?? null,
-  $_GET['fecha_fin'] ?? null,
-  $_GET['id_asignatura'] ?? null
-);
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Resultado del Reporte</title>
+  <title><?= $titulo ?></title>
   <link rel="stylesheet" href="<?= BASE_URL ?>/Publico/recursos/estilo.css">
   <style>
     .estadisticas-container {
@@ -131,7 +118,7 @@ $estadisticas = $reporteModelo->obtenerEstadisticas(
 </head>
 <body>
 <section class="seccion-estudiantes">
-  <h2> Resultado del Reporte por Tutor</h2>
+  <h2>📊 Resultado del Reporte por Tutor</h2>
   
   <div class="info-tutor">
     <h3>👨‍🏫 <?= htmlspecialchars($tutorInfo['nombre'] . ' ' . $tutorInfo['apellido']) ?></h3>
@@ -171,17 +158,17 @@ $estadisticas = $reporteModelo->obtenerEstadisticas(
   </div>
 
   <div class="botones-exportar">
-    <a href="<?= BASE_URL ?>/index.php?modulo=reporteTutor&accion=exportar_csv&id_tutor=<?= $_GET['id_tutor'] ?>&fecha_inicio=<?= $_GET['fecha_inicio'] ?? '' ?>&fecha_fin=<?= $_GET['fecha_fin'] ?? '' ?>&id_asignatura=<?= $_GET['id_asignatura'] ?? '' ?>" 
+    <a href="<?= BASE_URL ?>/reportes/exportar_csv?id_tutor=<?= $_GET['id_tutor'] ?>&fecha_inicio=<?= $_GET['fecha_inicio'] ?? '' ?>&fecha_fin=<?= $_GET['fecha_fin'] ?? '' ?>&id_asignatura=<?= $_GET['id_asignatura'] ?? '' ?>" 
        class="boton-exportar boton-csv">
-      📥 Exportar a CSV
+       Exportar a CSV
     </a>
     
-    <a href="<?= BASE_URL ?>/index.php?modulo=reporteTutor&accion=exportar_pdf&id_tutor=<?= $_GET['id_tutor'] ?>&fecha_inicio=<?= $_GET['fecha_inicio'] ?? '' ?>&fecha_fin=<?= $_GET['fecha_fin'] ?? '' ?>&id_asignatura=<?= $_GET['id_asignatura'] ?? '' ?>" 
+    <a href="<?= BASE_URL ?>/reportes/exportar_pdf?id_tutor=<?= $_GET['id_tutor'] ?>&fecha_inicio=<?= $_GET['fecha_inicio'] ?? '' ?>&fecha_fin=<?= $_GET['fecha_fin'] ?? '' ?>&id_asignatura=<?= $_GET['id_asignatura'] ?? '' ?>" 
        class="boton-exportar boton-pdf">
-      📄 Exportar a PDF
+       Exportar a PDF
     </a>
     
-    <a href="<?= BASE_URL ?>/index.php?modulo=reporteTutor&accion=listar" 
+    <a href="<?= BASE_URL ?>/reportes" 
        class="boton-exportar boton-volver">
       ← Volver a Filtros
     </a>
@@ -222,7 +209,7 @@ $estadisticas = $reporteModelo->obtenerEstadisticas(
   </div>
   <?php else: ?>
   <div class="sin-resultados">
-    <h3 style="color: #ffffffff;">🔍 No hay sesiones registradas para este tutor con los filtros seleccionados.</h3>
+    <h3 style="color: #ffffffff;">🔍 No hay sesiones registradas</h3>
     <p>No hay sesiones registradas para este tutor con los filtros seleccionados.</p>
     <p>Intente modificar los criterios de búsqueda.</p>
   </div>

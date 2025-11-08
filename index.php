@@ -72,6 +72,9 @@ $router->get('/asignaturas/eliminar', 'AsignaturasController@eliminar'); //ruta 
 $router->get('/asignaturas/cambiarEstado', 'AsignaturasController@cambiarEstado'); //ruta para cambiar estado de asignaturas
 
 
+$router->get('/asignaturas_estudiante', 'AsignaturasEstudianteController@listar');
+
+
 //* Rutas para tutores
 
 $router->get('/tutores', 'TutoresController@listar'); //ruta para listar tutores
@@ -105,7 +108,10 @@ $router->get('/sesiones/cambiarEstado', 'SesionesController@cambiarEstado'); //r
 
 //* Rutas para Reportes
 
-$router->get('/reportes', 'ReportesController@listar'); //ruta para listar reportes
+   $router->get('/reportes', 'ReporteTutorController@listar');
+   $router->get('/reportes/generar', 'ReporteTutorController@generar');
+   $router->get('/reportes/exportar_csv', 'ReporteTutorController@exportar_csv');
+   $router->get('/reportes/exportar_pdf', 'ReporteTutorController@exportar_pdf');
 
 $router->get('/reportes/crear', 'ReportesController@crear'); //ruta para crear reportes
 $router->post('/reportes/crear', 'ReportesController@crear');
@@ -179,3 +185,26 @@ if (!Auth::estaAutenticado() && !in_array($currentUriRelative, $rutasPublicas)) 
 //~ =================================================================
 
 $router->dispatch();
+
+
+// ============================================================
+//  COMPATIBILIDAD CON RUTAS ANTIGUAS tipo ?modulo=&accion=
+// ============================================================
+if (isset($_GET['modulo']) && isset($_GET['accion'])) {
+    $modulo = $_GET['modulo'];
+    $accion = $_GET['accion'];
+
+    switch ($modulo) {
+        case 'asignaturas_estudiante':
+            require_once __DIR__ . '/Controladores/AsignaturasEstudianteController.php';
+            $controller = new AsignaturasEstudianteController();
+            if (method_exists($controller, $accion)) {
+                $controller->$accion();
+            } else {
+                echo "Acción no encontrada: $accion";
+            }
+            exit;
+
+        
+    }
+}

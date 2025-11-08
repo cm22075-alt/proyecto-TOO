@@ -1,11 +1,9 @@
-<?php include_once(dirname(__DIR__) . '/plantillas/menu.php'); ?>
-<?php include_once(dirname(__DIR__, 2) . '/config/db.php'); ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Reporte por Tutor</title>
-  <link rel="stylesheet" href="../../publico/recursos/estilo.css">
+  <title><?= $titulo ?></title>
+  <link rel="stylesheet" href="<?= BASE_URL ?>/publico/recursos/estilo.css">
   <style>
     .formulario-reporte {
       max-width: 800px;
@@ -34,6 +32,7 @@
       border: 1px solid #ddd;
       border-radius: 5px;
       font-size: 14px;
+      box-sizing: border-box;
     }
     
     .grupo-formulario small {
@@ -53,6 +52,7 @@
       display: flex;
       gap: 10px;
       margin-top: 30px;
+      justify-content: flex-start;
     }
     
     .boton-generar {
@@ -65,6 +65,7 @@
       font-size: 16px;
       text-decoration: none;
       display: inline-block;
+      transition: background-color 0.3s;
     }
     
     .boton-generar:hover {
@@ -79,6 +80,7 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
+      transition: background-color 0.3s;
     }
     
     .boton-limpiar:hover {
@@ -107,33 +109,48 @@
   <h2>📊 Reporte de Sesiones por Tutor</h2>
   
   <div class="info-ayuda">
-    <strong> Información:</strong> Genera reportes detallados de las sesiones impartidas por un tutor específico. 
+    <strong>ℹ Información:</strong> Genera reportes detallados de las sesiones impartidas por un tutor específico. 
     Puedes filtrar por rango de fechas y asignatura para obtener información más específica.
   </div>
 
   <?php if (isset($error)): ?>
     <div class="alerta-error">
-       <?= htmlspecialchars($error) ?>
+      ⚠ <?= htmlspecialchars($error) ?>
     </div>
   <?php endif; ?>
 
   <div class="formulario-reporte">
-    <form method="GET" action="<?= BASE_URL ?>/index.php">
-      <input type="hidden" name="modulo" value="reporteTutor">
-      <input type="hidden" name="accion" value="generar">
+    <form method="GET" action="<?= BASE_URL ?>/reportes/generar">
       
       <div class="grupo-formulario">
         <label for="id_tutor">🎓 Tutor: *</label>
         <select name="id_tutor" id="id_tutor" required>
           <option value="">-- Seleccione un tutor --</option>
-          <?php while ($tutor = $tutores->fetch_assoc()): ?>
-            <option value="<?= $tutor['id_tutor'] ?>" <?= (isset($_GET['id_tutor']) && $_GET['id_tutor'] == $tutor['id_tutor']) ? 'selected' : '' ?>>
-              <?= htmlspecialchars($tutor['codigo'] . ' - ' . $tutor['nombre'] . ' ' . $tutor['apellido']) ?>
-              <?php if ($tutor['especialidad']): ?>
-                (<?= htmlspecialchars($tutor['especialidad']) ?>)
-              <?php endif; ?>
-            </option>
-          <?php endwhile; ?>
+          <?php 
+          // Manejar tanto arrays como mysqli_result
+          if (is_array($tutores)) {
+            foreach ($tutores as $tutor) {
+              $selected = (isset($_GET['id_tutor']) && $_GET['id_tutor'] == $tutor['id_tutor']) ? 'selected' : '';
+              echo "<option value='{$tutor['id_tutor']}' $selected>";
+              echo htmlspecialchars($tutor['codigo'] . ' - ' . $tutor['nombre'] . ' ' . $tutor['apellido']);
+              if (!empty($tutor['especialidad'])) {
+                echo " (" . htmlspecialchars($tutor['especialidad']) . ")";
+              }
+              echo "</option>";
+            }
+          } else {
+            // mysqli_result
+            while ($tutor = $tutores->fetch_assoc()) {
+              $selected = (isset($_GET['id_tutor']) && $_GET['id_tutor'] == $tutor['id_tutor']) ? 'selected' : '';
+              echo "<option value='{$tutor['id_tutor']}' $selected>";
+              echo htmlspecialchars($tutor['codigo'] . ' - ' . $tutor['nombre'] . ' ' . $tutor['apellido']);
+              if (!empty($tutor['especialidad'])) {
+                echo " (" . htmlspecialchars($tutor['especialidad']) . ")";
+              }
+              echo "</option>";
+            }
+          }
+          ?>
         </select>
         <small>Campo obligatorio</small>
       </div>
@@ -142,13 +159,13 @@
         <div class="grupo-formulario">
           <label for="fecha_inicio"> Fecha Inicio:</label>
           <input type="date" name="fecha_inicio" id="fecha_inicio" value="<?= $_GET['fecha_inicio'] ?? '' ?>">
-          <small>Opcional -> Desde qué fecha</small>
+          <small>Opcional - Desde qué fecha</small>
         </div>
 
         <div class="grupo-formulario">
           <label for="fecha_fin"> Fecha Fin:</label>
           <input type="date" name="fecha_fin" id="fecha_fin" value="<?= $_GET['fecha_fin'] ?? '' ?>">
-          <small>Opcional -> Hasta qué fecha</small>
+          <small>Opcional - Hasta qué fecha</small>
         </div>
       </div>
 
@@ -156,13 +173,27 @@
         <label for="id_asignatura"> Asignatura:</label>
         <select name="id_asignatura" id="id_asignatura">
           <option value="">-- Todas las asignaturas --</option>
-          <?php while ($asignatura = $asignaturas->fetch_assoc()): ?>
-            <option value="<?= $asignatura['id_asignatura'] ?>" <?= (isset($_GET['id_asignatura']) && $_GET['id_asignatura'] == $asignatura['id_asignatura']) ? 'selected' : '' ?>>
-              <?= htmlspecialchars($asignatura['codigo'] . ' - ' . $asignatura['nombre']) ?>
-            </option>
-          <?php endwhile; ?>
+          <?php 
+          // Manejar tanto arrays como mysqli_result
+          if (is_array($asignaturas)) {
+            foreach ($asignaturas as $asignatura) {
+              $selected = (isset($_GET['id_asignatura']) && $_GET['id_asignatura'] == $asignatura['id_asignatura']) ? 'selected' : '';
+              echo "<option value='{$asignatura['id_asignatura']}' $selected>";
+              echo htmlspecialchars($asignatura['codigo'] . ' - ' . $asignatura['nombre']);
+              echo "</option>";
+            }
+          } else {
+            // mysqli_result  
+            while ($asignatura = $asignaturas->fetch_assoc()) {
+              $selected = (isset($_GET['id_asignatura']) && $_GET['id_asignatura'] == $asignatura['id_asignatura']) ? 'selected' : '';
+              echo "<option value='{$asignatura['id_asignatura']}' $selected>";
+              echo htmlspecialchars($asignatura['codigo'] . ' - ' . $asignatura['nombre']);
+              echo "</option>";
+            }
+          }
+          ?>
         </select>
-        <small>Opcional -> Filtrar por asignatura específica</small>
+        <small>Opcional - Filtrar por asignatura específica</small>
       </div>
 
       <div class="botones-accion">
@@ -175,25 +206,29 @@
 
 <script>
 function limpiarFormulario() {
-  window.location.href = '<?= BASE_URL ?>/index.php?modulo=reporteTutor&accion=listar';
+  window.location.href = '<?= BASE_URL ?>/reportes';
 }
-//Validaciones de feeeechas
+
+// Validaciones de fechas
 document.querySelector('form').addEventListener('submit', function(e) {
   const fechaInicio = document.getElementById('fecha_inicio').value;
   const fechaFin = document.getElementById('fecha_fin').value;
   
   if ((fechaInicio && !fechaFin) || (!fechaInicio && fechaFin)) {
     e.preventDefault();
-    alert(' Si ingresa un rango de fechas, debe completar tanto la fecha de inicio como la fecha fin.');
+    alert('⚠ Si ingresa un rango de fechas, debe completar tanto la fecha de inicio como la fecha fin.');
     return false;
   }
   
   if (fechaInicio && fechaFin && fechaInicio > fechaFin) {
     e.preventDefault();
-    alert(' La fecha de inicio no puede ser mayor a la fecha fin.');
+    alert('⚠ La fecha de inicio no puede ser mayor a la fecha fin.');
     return false;
   }
 });
+
+// Debug: mostrar en consola si se cargaron las asignaturas
+console.log('Asignaturas cargadas:', document.querySelectorAll('#id_asignatura option').length - 1);
 </script>
 </body>
 </html>
