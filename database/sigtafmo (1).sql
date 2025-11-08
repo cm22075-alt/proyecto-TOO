@@ -254,3 +254,8 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO `usuario` 
+    (`id_usuario`, `username`, `password_hash`, `rol`, `estado`) 
+VALUES 
+    (1, 'admin_test', '$2y$10$aWs/./aJpLuHLIuOiGh/MuW1xu0kLFZnVpxMVWEh9u2Vfkdvd7SoC', 'Admin', 1);
