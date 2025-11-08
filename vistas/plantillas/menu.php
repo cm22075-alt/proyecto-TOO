@@ -1,19 +1,20 @@
 <?php include_once(dirname(__DIR__, 2) . '/config/db.php'); ?>
 <nav class="menu">
   <div class="nav-links">
-    <a href="<?= BASE_URL ?>/index.php">
+    <a href="<?= BASE_URL ?>/dashboard">
       <img src="<?= BASE_URL ?>/assets/icono_minerva.png" alt="Inicio" class="icono-inicio">
     </a>
-    <a href="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=listar">📋 Estudiantes</a>
-    <a href="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=listar">📚 Asignaturas</a>
-    <a href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=listar">👨‍🏫 Tutores</a>
-    <a href="<?= BASE_URL ?>/index.php?modulo=sesiones&accion=listar">🗓️ Sesiones</a>
-    <a href="<?= BASE_URL ?>/index.php?modulo=reporteTutor&accion=listar">📈 Reportes</a>
-    <a href="<?= BASE_URL ?>/index.php?modulo=usuarios&accion=listar">👥 Usuarios</a> 
-    <a href="<?= BASE_URL ?>/index.php?modulo=auditoria&accion=listar">🕵️ Auditoría</a>   
+
+    <a href="<?= BASE_URL ?>/estudiantes">📋 Estudiantes</a>
+    <a href="<?= BASE_URL ?>/asignaturas">📚 Asignaturas</a>
+    <a href="<?= BASE_URL ?>/tutores">👨‍🏫 Tutores</a>
+    <a href="<?= BASE_URL ?>/sesiones">🗓️ Sesiones</a>
+    <a href="<?= BASE_URL ?>/reportes">📈 Reportes</a>
+    <a href="<?= BASE_URL ?>/usuarios">👥 Usuarios</a>
+    <a href="<?= BASE_URL ?>/auditoria">🕵️ Auditoría</a>
   </div>
-  
-  <form method="POST" action="<?= BASE_URL ?>/logout.php">
+
+  <form method="GET" action="<?= BASE_URL ?>/logout">
     <button class="logout">Cerrar sesión</button>
   </form>
 </nav>

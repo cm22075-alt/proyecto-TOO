@@ -19,7 +19,7 @@
       overflow-x: hidden;
     }
 
-    /* Menú superior */
+    /* Men usuperior */
     nav.menu {
       background-color: rgba(44, 62, 80, 0.9);
       padding: 10px 20px;
@@ -140,11 +140,12 @@
 
   <nav class="menu">
     <div class="nav-links">
-      <a href="<?= BASE_URL ?>/index.php">
+    
+      <a href="<?= BASE_URL ?>/vistas/plantillas/menuEstudiante.php">
         <img src="<?= BASE_URL ?>/assets/icono_minerva.png" alt="Inicio" class="icono-inicio">
       </a>
-      <a href="<?= BASE_URL ?>/index.php?modulo=asignaturas&accion=listar">📚 Asignaturas</a>
-      <a href="<?= BASE_URL ?>/index.php?modulo=tutores&accion=listar">👨‍🏫 Tutores</a>
+
+      <a href="<?= BASE_URL ?>/index.php?modulo=asignaturas_estudiante&accion=listar">📚 Asignaturas</a>
       <a href="<?= BASE_URL ?>/index.php?modulo=sesiones&accion=listar">🗓️ Sesiones</a>
     </div>
 
@@ -153,10 +154,12 @@
     </form>
   </nav>
 
-  <div class="contenido">
-    <h1>Bienvenido, Estudiante 👋</h1>
-    <p>Selecciona una opción del menú superior para comenzar.</p>
-  </div>
+  <?php if (!isset($vista) || empty($vista)): ?>
+    <div class="contenido">
+      <h1>Bienvenido, Estudiante 👋</h1>
+      <p>Selecciona una opción del menú superior para comenzar.</p>
+    </div>
+  <?php endif; ?>
 
 </body>
 </html>

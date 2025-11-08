@@ -1,56 +1,70 @@
 <?php // código temporal en lo que se agrega el de la historia de usuario 2
-class Tutor {
-  private $conexion;
 
-  public function __construct($conexion) {
-    $this->conexion = $conexion;
-  }
+require_once __DIR__ . '/../Config/db.php';
 
-  public function listar() {
+class Tutor
+{
+  private $db;
+
+  public function __construct() 
+    {
+        global $conexion;
+        $this->db = $conexion; 
+
+        if ($this->db === null || $this->db->connect_error) {
+             die("Error de conexión: La base de datos no está disponible."); 
+        }
+    }
+
+  public function listar()
+  {
     $sql = "SELECT * FROM tutor ORDER BY id_tutor DESC";
-    return $this->conexion->query($sql);
+    return $this->db->query($sql);
   }
 
-  public function crear($data) {
-    $codigo = $this->conexion->real_escape_string($data['codigo']);
-    $nombre = $this->conexion->real_escape_string($data['nombre']);
-    $apellido = $this->conexion->real_escape_string($data['apellido']);
-    $email = $this->conexion->real_escape_string($data['email']);
-    $especialidad = $this->conexion->real_escape_string($data['especialidad'] ?? '');
+  public function crear($data)
+  {
+    $codigo = $this->db->real_escape_string($data['codigo']);
+    $nombre = $this->db->real_escape_string($data['nombre']);
+    $apellido = $this->db->real_escape_string($data['apellido']);
+    $email = $this->db->real_escape_string($data['email']);
+    $especialidad = $this->db->real_escape_string($data['especialidad'] ?? '');
 
-    $check = $this->conexion->query("SELECT * FROM tutor WHERE codigo='$codigo'");
+    $check = $this->db->query("SELECT * FROM tutor WHERE codigo='$codigo'");
     if ($check->num_rows > 0) {
       return "El código ya existe.";
     }
 
-    $check = $this->conexion->query("SELECT * FROM tutor WHERE email='$email'");
+    $check = $this->db->query("SELECT * FROM tutor WHERE email='$email'");
     if ($check->num_rows > 0) {
       return "El email ya existe.";
     }
 
     $sql = "INSERT INTO tutor (codigo, nombre, apellido, email, especialidad, estado) 
             VALUES ('$codigo', '$nombre', '$apellido', '$email', '$especialidad', 1)";
-    return $this->conexion->query($sql);
+    return $this->db->query($sql);
   }
 
-  public function obtener($id) {
+  public function obtener($id)
+  {
     $sql = "SELECT * FROM tutor WHERE id_tutor = $id";
-    return $this->conexion->query($sql)->fetch_assoc();
+    return $this->db->query($sql)->fetch_assoc();
   }
 
-  public function actualizar($id, $data) {
-    $codigo = $this->conexion->real_escape_string($data['codigo']);
-    $nombre = $this->conexion->real_escape_string($data['nombre']);
-    $apellido = $this->conexion->real_escape_string($data['apellido']);
-    $email = $this->conexion->real_escape_string($data['email']);
-    $especialidad = $this->conexion->real_escape_string($data['especialidad'] ?? '');
+  public function actualizar($id, $data)
+  {
+    $codigo = $this->db->real_escape_string($data['codigo']);
+    $nombre = $this->db->real_escape_string($data['nombre']);
+    $apellido = $this->db->real_escape_string($data['apellido']);
+    $email = $this->db->real_escape_string($data['email']);
+    $especialidad = $this->db->real_escape_string($data['especialidad'] ?? '');
 
-    $check = $this->conexion->query("SELECT * FROM tutor WHERE codigo='$codigo' AND id_tutor != $id");
+    $check = $this->db->query("SELECT * FROM tutor WHERE codigo='$codigo' AND id_tutor != $id");
     if ($check->num_rows > 0) {
       return "El código ya existe en otro tutor.";
     }
 
-    $check = $this->conexion->query("SELECT * FROM tutor WHERE email='$email' AND id_tutor != $id");
+    $check = $this->db->query("SELECT * FROM tutor WHERE email='$email' AND id_tutor != $id");
     if ($check->num_rows > 0) {
       return "El email ya existe en otro tutor.";
     }
@@ -59,19 +73,20 @@ class Tutor {
             SET codigo='$codigo', nombre='$nombre', apellido='$apellido', 
                 email='$email', especialidad='$especialidad' 
             WHERE id_tutor=$id";
-    return $this->conexion->query($sql);
+    return $this->db->query($sql);
   }
 
-  public function eliminar($id) {
+  public function eliminar($id)
+  {
     $sql = "DELETE FROM tutor WHERE id_tutor=$id";
-    return $this->conexion->query($sql);
+    return $this->db->query($sql);
   }
 
-  public function cambiarEstado($id) {
-    $res = $this->conexion->query("SELECT estado FROM tutor WHERE id_tutor=$id");
+  public function cambiarEstado($id)
+  {
+    $res = $this->db->query("SELECT estado FROM tutor WHERE id_tutor=$id");
     $fila = $res->fetch_assoc();
     $nuevoEstado = $fila['estado'] ? 0 : 1;
-    $this->conexion->query("UPDATE tutor SET estado=$nuevoEstado WHERE id_tutor=$id");
+    $this->db->query("UPDATE tutor SET estado=$nuevoEstado WHERE id_tutor=$id");
   }
 }
-?>

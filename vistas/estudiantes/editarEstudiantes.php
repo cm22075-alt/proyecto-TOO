@@ -12,7 +12,7 @@
 <body>
 <section class="formulario-estudiante">
 <h2 class="titulo-formulario">✏️ Editar Estudiante</h2>
-<form class="formulario-estudiante" method="POST" action="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=editar&id=<?= $estudiante['id_estudiante'] ?>">
+<form class="formulario-estudiante" method="POST" action="<?= BASE_URL ?>/estudiantes/editar/?id=<?= $estudiante['id_estudiante'] ?>">
   <label>Carnet:</label>
   <input type="text" name="carnet" value="<?= $estudiante['carnet'] ?>" required>
 
@@ -33,7 +33,7 @@
 
   <div class="botones-formulario">
     <button type="submit" class="boton-guardar">Actualizar</button>
-    <a href="<?= BASE_URL ?>/index.php?modulo=estudiantes&accion=listar" class="boton-volver">Cancelar</a>
+    <a href="<?= BASE_URL ?>/estudiantes" class="boton-volver">Cancelar</a>
   </div>
 </form>
 </section>
