@@ -1,0 +1,57 @@
+<?php
+require_once dirname(__DIR__) . '/modelos/Usuario.php';
+
+class UsuarioController {
+    private $usuarioModelo;
+
+    public function __construct() {
+        $this->usuarioModelo = new Usuario();
+    }
+
+    public function listar() {
+        $registros = $this->usuarioModelo->listar();
+        $titulo = 'Listado de Usuarios';
+        $vista = dirname(__DIR__) . '/vistas/usuarios/listarUsuarios.php';
+        include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
+        include_once($vista);
+    }
+
+    public function crear() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $rol = $_POST['rol'];
+            $estado = $_POST['estado'];
+            $this->usuarioModelo->crear($username, $password, $rol, $estado);
+            header('Location: ' . BASE_URL . '/usuario');
+            exit;
+        }
+        $titulo = 'Crear Usuario';
+        $vista = dirname(__DIR__) . '/vistas/usuarios/crearUsuarios.php';
+        include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
+        include_once($vista);
+    }
+
+    public function actualizar() {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            echo "<p>ID no proporcionado.</p>";
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'];
+            $rol = $_POST['rol'];
+            $estado = $_POST['estado'];
+            $this->usuarioModelo->actualizar($id, $username, $rol, $estado);
+            header('Location: ' . BASE_URL . '/usuario');
+            exit;
+        }
+
+        $usuario = $this->usuarioModelo->obtenerPorId($id);
+        $titulo = 'Actualizar Usuario';
+        $vista = dirname(__DIR__) . '/vistas/usuarios/editarUsuarios.php';
+        include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
+        include_once($vista);
+    }
+}

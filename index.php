@@ -122,17 +122,17 @@ $router->get('/reportes/cambiarEstado', 'ReportesController@cambiarEstado'); //r
 
 //* Rutas para usuarios
 
-$router->get('/usuarios', 'UsuariosController@listar'); //ruta para listar usuarios
+$router->get('/usuarios', 'UsuarioController@listar'); //ruta para listar usuarios
 
-$router->get('/usuarios/crear', 'UsuariosController@crear'); //ruta para crear usuarios
-$router->post('/usuarios/crear', 'UsuariosController@crear');   
+$router->get('/usuarios/crear', 'UsuarioController@crear'); //ruta para crear usuarios
+$router->post('/usuarios/crear', 'UsuarioController@crear');   
 
-$router->get('/usuarios/editar', 'UsuariosController@editar'); //ruta para editar usuarios
-$router->post('/usuarios/editar', 'UsuariosController@editar');
+$router->get('/usuarios/editar', 'UsuarioController@editar'); //ruta para editar usuarios
+$router->post('/usuarios/editar', 'UsuarioController@editar');
 
-$router->get('/usuarios/eliminar', 'UsuariosController@eliminar'); //ruta para eliminar usuarios    
+$router->get('/usuarios/eliminar', 'UsuarioController@eliminar'); //ruta para eliminar usuarios    
 
-$router->get('/usuarios/cambiarEstado', 'UsuariosController@cambiarEstado'); //ruta para cambiar estado de usuarios
+$router->get('/usuarios/cambiarEstado', 'UsuarioController@cambiarEstado'); //ruta para cambiar estado de usuarios
 
 //* Rutas para auditoria
 

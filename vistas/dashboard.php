@@ -78,7 +78,7 @@
             <a href="<?= BASE_URL ?>/tutores">👨‍🏫 Tutores</a>
             <a href="<?= BASE_URL ?>/sesiones">🗓️ Sesiones</a>
             <a href="<?= BASE_URL ?>/reportes">📈 Reportes</a>
-            <a href="<?= BASE_URL ?>/usuarios">👥 Usuarios</a>
+            <a href="<?= BASE_URL ?>/usuario">👥 Usuarios</a>
             <a href="<?= BASE_URL ?>/auditoria">🕵️ Auditoría</a>
         </div>
     <form method="POST" action="<?= BASE_URL ?>/logout.php">

@@ -1,65 +1,36 @@
 <?php
-
-require_once __DIR__ . '/../Config/db.php'; 
+require_once dirname(__DIR__) . '/config/db.php';
 
 class Usuario {
-    
-    // Hacemos que la conexión sea una propiedad estática accesible globalmente
-    // No necesitamos definirla aquí, la obtendremos del ámbito global.
+    private $db;
 
     public function __construct() {
-        // La conexión ya está establecida en db.php, no necesitamos código aquí.
+        global $conexion;
+        $this->db = $conexion;
     }
 
-    /**
-     * Busca un usuario por su nombre de usuario.
-     * @param string $login Identificador (username)
-     * @return array|null El registro del usuario o null si no se encuentra.
-     */
-    public function buscarPorLogin($login) {
-        
-        // Obtenemos la conexión establecida en Config/db.php
-        global $conexion;
-        
-        // 1. Definimos la consulta a la tabla 'usuario' (la tabla real)
-        $sql = "SELECT id_usuario, username, password_hash, rol 
-                FROM usuario 
-                WHERE username = ? 
-                AND estado = 1  
-                LIMIT 1";
-        
-        // 2. Usamos la sentencia preparada de mysqli para seguridad
-        $stmt = $conexion->prepare($sql);
+    public function listar() {
+        $sql = "SELECT * FROM usuario";
+        return $this->db->query($sql);
+    }
 
-        // Verificamos si la preparación falló
-        if (!$stmt) {
-             error_log("MySQLi Prepare Error: " . $conexion->error);
-             return null;
-        }
+    public function crear($username, $password, $rol, $estado) {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("INSERT INTO usuario (username, password_hash, rol, estado, creado_en, actualizado_en) VALUES (?, ?, ?, ?, NOW(), NOW())");
+        $stmt->bind_param("ssss", $username, $hash, $rol, $estado);
+        return $stmt->execute();
+    }
 
-        // 3. Enlazamos el parámetro: 's' para string
-        $stmt->bind_param("s", $login);
-        
-        // 4. Ejecutamos la consulta
+    public function obtenerPorId($id) {
+        $stmt = $this->db->prepare("SELECT * FROM usuario WHERE id_usuario = ?");
+        $stmt->bind_param("i", $id);
         $stmt->execute();
-        
-        // 5. Obtenemos el resultado
-        $resultado = $stmt->get_result();
-        
-        // 6. Obtenemos la fila como un array asociativo
-        $usuario = $resultado->fetch_assoc();
-        
-        // 7. Cerramos la sentencia
-        $stmt->close();
+        return $stmt->get_result()->fetch_assoc();
+    }
 
-        // Retornamos el usuario o null.
-        // Mapeamos los nombres de columna al formato que espera Auth.php (si es necesario)
-        if ($usuario) {
-            // Renombramos 'username' a 'nombre' si Auth.php espera 'nombre' (como en la simulación)
-            // Si Auth.php espera 'username', no hagas nada.
-            $usuario['nombre'] = $usuario['username']; 
-        }
-        
-        return $usuario ?: null;
+    public function actualizar($id, $username, $rol, $estado) {
+        $stmt = $this->db->prepare("UPDATE usuario SET username = ?, rol = ?, estado = ?, actualizado_en = NOW() WHERE id_usuario = ?");
+        $stmt->bind_param("sssi", $username, $rol, $estado, $id);
+        return $stmt->execute();
     }
 }

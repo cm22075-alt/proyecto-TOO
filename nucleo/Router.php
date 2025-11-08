@@ -56,12 +56,16 @@ class Router
             return;
         }
 
+        
+
         // 4. Obtener el controlador y la acción (ej: 'AccesoController@login')
         $controladorAccion = $this->rutas[$metodo][$uri];
         list($nombreControlador, $metodoAccion) = explode('@', $controladorAccion);
 
         // 5. Incluir el archivo del Controlador
         $archivoControlador = __DIR__ . '/../Controladores/' . $nombreControlador . '.php';
+        
+
 
         // Usamos el check de file_exists antes de la inclusión
         if (!file_exists($archivoControlador)) {

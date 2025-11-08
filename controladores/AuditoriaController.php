@@ -8,7 +8,7 @@ switch ($accion) {
     case 'listar':
       include_once(dirname(__DIR__) . '/modelos/Auditoria.php');
       $auditoriaModelo = new Auditoria($conexion);
-      //$accion = $_GET['accion'] ?? 'listar';
+      $accion = $_GET['accion'] ?? 'listar';
       $registros = $auditoriaModelo->listar();
       $titulo = 'Auditoría del sistema';
       $vista = dirname(__DIR__) . '/vistas/auditoria/listarAuditoria.php';
