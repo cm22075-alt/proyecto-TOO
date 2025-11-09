@@ -10,7 +10,7 @@
  </head>
     <body>
         <h2 class= "titulo-auditoria" style="color:rgb(16, 12, 76);">🕵️ Auditoría del Sistema</h2>
-        <table class="tabla-estudiantes">
+        <table class="tabla-auditoria">
         <thead>
             <tr>
             <th>Fecha</th>

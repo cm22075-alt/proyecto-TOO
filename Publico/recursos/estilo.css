@@ -598,3 +598,47 @@ nav {
 .btn-cancelar:hover {
   background-color: #5a6268;
 }
+
+/*estilo para tabla auditoria*/
+.titulo-auditoria {
+  text-align: center;
+  font-size: 1.8em;
+  margin: 30px 0;
+  font-weight: bold;
+  color: rgb(16, 12, 76);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.tabla-auditoria {
+  width: 90%;
+  margin: 0 auto 40px auto;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.95em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-auditoria thead {
+  background-color: #102c57;
+  color: white;
+}
+
+.tabla-auditoria th,
+.tabla-auditoria td {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.tabla-auditoria tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.tabla-auditoria tbody tr:hover {
+  background-color: #e0e0ff;
+  cursor: default;
+}
+
+.tabla-auditoria td {
+  color: #333;
+}

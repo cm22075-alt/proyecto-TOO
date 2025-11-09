@@ -80,6 +80,18 @@ class AsignaturasController // Nombre de clase correcto para el Router
             $resultado = $this->modelo->actualizar($id, $_POST);
             
             if ($resultado === true) {
+
+           // Obtener nombre de la asignatura actualizada
+        $asignatura = $this->modelo->obtener($id);
+        $nombre = $asignatura['nombre'] ?? 'desconocida';
+
+        // Registrar en auditoría
+        $this->auditoriaModelo->registrar(
+            'asignatura',
+            'actualizar',
+            'Se actualizó la asignatura "' . $nombre . '" con ID ' . $id,
+            $_SESSION['usuario_id'] ?? 0
+        ); 
                 header("Location: " . BASE_URL . "/asignaturas");
                 exit;
             } else {
