@@ -207,3 +207,29 @@ if (isset($_GET['modulo']) && isset($_GET['accion'])) {
             exit;
     }
 }
+if (isset($_GET['modulo']) && isset($_GET['accion'])) {
+    $modulo = $_GET['modulo'];
+    $accion = $_GET['accion'];
+
+    switch ($modulo) {
+        case 'asignaturas_estudiante':
+            require_once __DIR__ . '/Controladores/AsignaturasEstudianteController.php';
+            $controller = new AsignaturasEstudianteController();
+            if (method_exists($controller, $accion)) {
+                $controller->$accion();
+            } else {
+                echo "Acción no encontrada: $accion";
+            }
+            exit;
+
+        case 'sesiones_estudiante':
+            require_once __DIR__ . '/Controladores/EstudianteSesionController.php';
+            $controller = new EstudianteSesionController();
+            if (method_exists($controller, $accion)) {
+                $controller->$accion();
+            } else {
+                echo "Acción no encontrada: $accion";
+            }
+            exit;
+    }
+}

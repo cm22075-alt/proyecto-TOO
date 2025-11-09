@@ -7,7 +7,7 @@
   <title>Menú Estudiante</title>
 
   <style>
-    /* Fondo y base */
+   
     body {
       font-family: 'Segoe UI', sans-serif;
       background: url('<?= BASE_URL ?>/assets/fondo.jpg') no-repeat center center fixed;
@@ -19,7 +19,7 @@
       overflow-x: hidden;
     }
 
-    /* Men usuperior */
+    
     nav.menu {
       background-color: rgba(44, 62, 80, 0.9);
       padding: 10px 20px;
@@ -34,7 +34,7 @@
       box-sizing: border-box;
     }
 
-    /* Contenedor de enlaces */
+    
     .nav-links {
       display: flex;
       flex-wrap: wrap;
@@ -55,7 +55,7 @@
       color: #1abc9c;
     }
 
-    /* Icono de inicio */
+    
     .icono-inicio {
       width: 40px;
       height: 40px;
@@ -68,7 +68,7 @@
       transform: scale(1.1);
     }
 
-    /* Botón cerrar sesión */
+    
     form {
       margin: 0;
     }
@@ -90,7 +90,7 @@
       background-color: #c0392b;
     }
 
-    /* Contenido principal */
+    
     .contenido {
       margin-top: 120px;
       text-align: center;
@@ -109,13 +109,13 @@
       color: #ecf0f1;
     }
 
-    /* Animación */
+    
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Responsivo */
+    
     @media (max-width: 768px) {
       nav.menu {
         flex-direction: column;
@@ -146,7 +146,7 @@
       </a>
 
       <a href="<?= BASE_URL ?>/index.php?modulo=asignaturas_estudiante&accion=listar">📚 Asignaturas</a>
-      <a href="<?= BASE_URL ?>/index.php?modulo=sesiones&accion=listar">🗓️ Sesiones</a>
+      <a href="<?= BASE_URL ?>/index.php?modulo=sesiones_estudiante&accion=listar">🗓️ Sesiones</a>
     </div>
 
     <form method="POST" action="<?= BASE_URL ?>/logout.php">
