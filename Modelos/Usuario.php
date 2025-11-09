@@ -33,4 +33,12 @@ class Usuario {
         $stmt->bind_param("sssi", $username, $rol, $estado, $id);
         return $stmt->execute();
     }
+
+    public function buscarPorLogin($username) {
+        $stmt = $this->db->prepare("SELECT * FROM usuario WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+    
 }

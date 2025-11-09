@@ -1,11 +1,16 @@
 <?php
+require_once dirname(__DIR__) . '/config/db.php'; // Asegura que $conexion esté disponible
 require_once dirname(__DIR__) . '/modelos/Usuario.php';
+require_once dirname(__DIR__) . '/modelos/Auditoria.php';
 
 class UsuarioController {
     private $usuarioModelo;
+    private $auditoriaModelo;
 
     public function __construct() {
-        $this->usuarioModelo = new Usuario();
+        global $conexion;
+        $this->usuarioModelo = new Usuario($conexion);
+        $this->auditoriaModelo = new Auditoria($conexion);
     }
 
     public function listar() {
@@ -22,14 +27,25 @@ class UsuarioController {
             $password = $_POST['password'];
             $rol = $_POST['rol'];
             $estado = $_POST['estado'];
+
             $this->usuarioModelo->crear($username, $password, $rol, $estado);
+
+            // Registro en auditoría
+            $this->auditoriaModelo->registrar(
+                'usuario',
+                'crear',
+                'Se creó el usuario ' . $username,
+                $_SESSION['usuario_id'] ?? 0
+            );            
+
             header('Location: ' . BASE_URL . '/usuario');
             exit;
         }
+
         $titulo = 'Crear Usuario';
         $vista = dirname(__DIR__) . '/vistas/usuarios/crearUsuarios.php';
         include_once(dirname(__DIR__) . '/vistas/plantillas/layout.php');
-        include_once($vista);
+        include_once($vista);     
     }
 
     public function actualizar() {
@@ -43,7 +59,17 @@ class UsuarioController {
             $username = $_POST['username'];
             $rol = $_POST['rol'];
             $estado = $_POST['estado'];
+
             $this->usuarioModelo->actualizar($id, $username, $rol, $estado);
+
+            // Registro en auditoría
+            $this->auditoriaModelo->registrar(
+                'usuario',
+                'crear',
+                'Se creó el usuario ' . $username,
+                $_SESSION['usuario_id'] ?? 0
+            );            
+
             header('Location: ' . BASE_URL . '/usuario');
             exit;
         }

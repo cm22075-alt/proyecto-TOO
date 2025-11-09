@@ -3,15 +3,20 @@
 
 // Incluir el Modelo (NO la configuración de DB, el Modelo ya lo hace)
 require_once __DIR__ . '/../Modelos/Asignatura.php';
+require_once dirname(__DIR__) . '/modelos/Auditoria.php';
+require_once dirname(__DIR__) . '/config/db.php'; // Asegura que $conexion esté disponible
 
 class AsignaturasController // Nombre de clase correcto para el Router
 {
     private $modelo;
+    private $auditoriaModelo;
 
     public function __construct()
     {
+        global $conexion;
         // Instanciar el modelo para poder usar sus métodos
         $this->modelo = new Asignatura();
+        $this->auditoriaModelo = new Auditoria($conexion);
     }
 
     // =======================================================
@@ -47,7 +52,13 @@ class AsignaturasController // Nombre de clase correcto para el Router
                 $error = $resultado;
             }
         }
-        
+        // Registro en auditoría
+        $this->auditoriaModelo->registrar(
+            'asignatura',
+            'crear',
+            'Se creó una asignatura ' . $username,
+            $_SESSION['usuario_id'] ?? 0
+        ); 
         $vista = 'asignaturas/crearAsignaturas.php';
         require __DIR__ . '/../vistas/plantillas/layout.php';
     }

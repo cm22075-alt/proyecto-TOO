@@ -138,7 +138,7 @@ $router->get('/usuarios/cambiarEstado', 'UsuarioController@cambiarEstado'); //ru
 
 $router->get('/auditoria', 'AuditoriaController@listar'); //ruta para listar auditoria
 
-$router->get('/auditoria/crear', 'AuditoriaController@crear'); //ruta para crear auditoria
+/*$router->get('/auditoria/crear', 'AuditoriaController@crear'); //ruta para crear auditoria
 $router->post('/auditoria/crear', 'AuditoriaController@crear');
 
 $router->get('/auditoria/editar', 'AuditoriaController@editar'); //ruta para editar auditoria
@@ -147,7 +147,7 @@ $router->post('/auditoria/editar', 'AuditoriaController@editar');
 $router->get('/auditoria/eliminar', 'AuditoriaController@eliminar'); //ruta para eliminar auditoria
 
 $router->get('/auditoria/cambiarEstado', 'AuditoriaController@cambiarEstado'); //ruta para cambiar estado de auditoria
-
+*/
 
 
 
