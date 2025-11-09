@@ -40,6 +40,7 @@ $router->post('/login', 'AccesoController@login');
 
 // El logout solo necesita un método GET (o POST, si el formulario usa POST)
 $router->get('/logout', 'AccesoController@logout');
+$router->post('/logout', 'AccesoController@logout'); // ✅ Agregado para que funcione el botón cerrar sesión
 
 // ! --- RUTAS PROTEGIDAS (ACCESIBLES SOLO CON LOGIN) ---
 

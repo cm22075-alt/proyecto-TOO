@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -81,7 +80,7 @@
             <a href="<?= BASE_URL ?>/usuarios">👥 Usuarios</a>
             <a href="<?= BASE_URL ?>/auditoria">🕵️ Auditoría</a>
         </div>
-    <form method="POST" action="<?= BASE_URL ?>/logout.php">
+    <form method="POST" action="<?= BASE_URL ?>/logout">
       <button class="logout">Cerrar sesión</button>
     </form>
   </nav>

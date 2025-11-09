@@ -149,7 +149,8 @@
       <a href="<?= BASE_URL ?>/index.php?modulo=sesiones_estudiante&accion=listar">🗓️ Sesiones</a>
     </div>
 
-    <form method="POST" action="<?= BASE_URL ?>/logout.php">
+    <!-- 🔧 CORREGIDO: ruta de logout -->
+    <form method="POST" action="<?= BASE_URL ?>/logout">
       <button class="logout">Cerrar sesión</button>
     </form>
   </nav>

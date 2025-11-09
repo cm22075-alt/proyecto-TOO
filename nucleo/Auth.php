@@ -1,52 +1,53 @@
 <?php
-require_once 'Modelos/Usuario.php';
+require_once __DIR__ . '/../Modelos/Usuario.php';
 
-class Auth {
-    // ... iniciarSesion() y estaAutenticado() están bien ...
-
-    public static function iniciarSesion() {
-        if (session_status() == PHP_SESSION_NONE) {
+class Auth
+{
+    /**
+     * Inicia la sesión si aún no está activa.
+     */
+    public static function iniciarSesion()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
 
-    public function verificarCredenciales($login, $password) {
+    /**
+     * Verifica las credenciales de login.
+     */
+    public function verificarCredenciales($login, $password)
+    {
         self::iniciarSesion();
         $usuarioModelo = new Usuario();
-        
-        // 1. Buscar el usuario en la base de datos (Obtiene id_usuario, username, password_hash, rol)
+
+        // 1. Buscar usuario en la base de datos
         $usuario = $usuarioModelo->buscarPorLogin($login);
 
         if (!$usuario) {
             return false; // Usuario no encontrado
         }
 
-        // 2. Verificar la contraseña hasheada
+        // 2. Verificar la contraseña
         if (password_verify($password, $usuario['password_hash'])) {
-            // 3. Credenciales válidas: Guardar datos en la sesión
-            
+            // 3. Guardar los datos del usuario en la sesión
             $_SESSION['usuario_autenticado'] = true;
             $_SESSION['usuario_id'] = $usuario['id_usuario'];
-            
-            // *** AJUSTE CRÍTICO ***: Usar 'username' y 'rol' de la DB
-            $_SESSION['usuario_nombre'] = $usuario['username']; 
+            $_SESSION['usuario_nombre'] = $usuario['username'];
             $_SESSION['usuario_rol'] = $usuario['rol'];
-            
+
             return true;
         }
 
-        // 4. Contraseña incorrecta
+        // 4. Si la contraseña no coincide
         return false;
-        try {
-        echo "Error: Método $metodoAccion no existe en $nombreControlador.";
-        } catch (Exception $e) {
-            http_response_code(500);
-            echo "Error al ejecutar la acción: " . $e->getMessage();
-        }
-    
-}
+    }
 
-    public static function estaAutenticado() {
+    /**
+     * Verifica si el usuario está autenticado.
+     */
+    public static function estaAutenticado()
+    {
         self::iniciarSesion();
         return isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true;
     }
