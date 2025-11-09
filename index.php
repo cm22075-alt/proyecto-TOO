@@ -92,19 +92,20 @@ $router->get('/tutores/eliminar', 'TutoresController@eliminar'); //ruta para eli
 
 $router->get('/tutores/cambiarEstado', 'TutoresController@cambiarEstado'); //ruta para cambiar estado de tutores
 
-//*n Rutas para Sesiones
+//* ✅ Rutas para Sesiones (corregido: SesionController)
 
-$router->get('/sesiones', 'SesionesController@listar'); //ruta para listar sesiones
+$router->get('/sesiones', 'SesionController@listar'); //ruta para listar sesiones
 
-$router->get('/sesiones/crear', 'SesionesController@crear'); //ruta para crear sesiones
-$router->post('/sesiones/crear', 'SesionesController@crear');
+$router->get('/sesiones/crear', 'SesionController@crear'); //ruta para crear sesiones
+$router->post('/sesiones/crear', 'SesionController@crear');
 
-$router->get('/sesiones/editar', 'SesionesController@editar'); //ruta para editar sesiones
-$router->post('/sesiones/editar', 'SesionesController@editar');
+$router->get('/sesiones/editar', 'SesionController@editar'); //ruta para editar sesiones
+$router->post('/sesiones/editar', 'SesionController@editar');
 
-$router->get('/sesiones/eliminar', 'SesionesController@eliminar'); //ruta para eliminar sesiones
+$router->get('/sesiones/eliminar', 'SesionController@eliminar'); //ruta para eliminar sesiones
 
-$router->get('/sesiones/cambiarEstado', 'SesionesController@cambiarEstado'); //ruta para cambiar estado de sesiones
+$router->get('/sesiones/cambiarEstado', 'SesionController@cambiarEstado'); //ruta para cambiar estado de sesiones
+
 
 //* Rutas para Reportes
 
@@ -204,7 +205,5 @@ if (isset($_GET['modulo']) && isset($_GET['accion'])) {
                 echo "Acción no encontrada: $accion";
             }
             exit;
-
-        
     }
 }

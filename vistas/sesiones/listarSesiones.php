@@ -7,151 +7,283 @@
   <meta charset="UTF-8">
   <title>Sesiones Registradas</title>
   <link rel="stylesheet" href="<?= BASE_URL ?>/publico/recursos/estilo.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #f4f6f9;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeInDown 0.8s ease-out forwards;
+    }
+
+    .tabla-sesion {
+      width: 90%;
+      margin: 30px auto;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #003366;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .acciones-superior {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .boton-agregar {
+      display: inline-block;
+      padding: 10px 18px;
+      background-color: #003366;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+
+    .boton-agregar:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .tabla-sesion th {
+      background-color: #003366;
+      color: white;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .tabla-sesion td {
+      padding: 10px;
+      color: #003366;
+      border: 1px solid #ddd;
+      background-color: #fff;
+    }
+
+    .tabla-sesion tr:nth-child(even) td {
+      background-color: #f8f9fa;
+    }
+
+    .tabla-sesion tr:hover td {
+      background-color: #eef3ff;
+    }
+
+    .boton-editar,
+    .boton-eliminar {
+      text-decoration: none;
+      font-size: 1.2em;
+      margin: 0 6px;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .boton-editar:hover {
+      transform: scale(1.2);
+      color: #0d6efd;
+    }
+
+    .boton-eliminar:hover {
+      transform: scale(1.2);
+      color: #dc3545;
+    }
+
+    .boton-link {
+      display: inline-block;
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 0.9em;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .boton-link:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .no-sesiones {
+      background-color: #f8d7da;
+      color: #721c24;
+      text-align: center;
+      font-weight: bold;
+      padding: 12px;
+      border-radius: 6px;
+    }
+
+    .modal-confirmar {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-contenido {
+      background-color: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 350px;
+      animation: aparecer 0.3s ease;
+    }
+
+    @keyframes aparecer {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-contenido h3 {
+      margin-top: 0;
+      color: #003366;
+    }
+
+    .modal-botones {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn-confirmar {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-si {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-si:hover {
+      background-color: #bb2d3b;
+    }
+
+    .btn-no {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .btn-no:hover {
+      background-color: #5a6268;
+    }
+  </style>
 </head>
 
 <body>
-<section class="tabla-sesion">
+<section class="tabla-sesion fade-in">
   <h2>📋 Sesiones Registradas</h2>
 
-  <form method="POST" class="filtros-reporte">
-    <label>Desde: <input type="date" name="fecha_inicio" value="<?= $fechaInicio ?>"></label>
-    <label>Hasta: <input type="date" name="fecha_fin" value="<?= $fechaFin ?>"></label>
-
-    <label>Tutor:
-      <select name="id_tutor">
-        <option value="">Todos</option>
-        <?php
-        $tutores = $conexion->query("SELECT id_tutor, nombre FROM tutor ORDER BY nombre");
-        while ($t = $tutores->fetch_assoc()) {
-          $sel = ($idTutor == $t['id_tutor']) ? 'selected' : '';
-          echo "<option value='{$t['id_tutor']}' $sel>{$t['nombre']}</option>";
-        }
-        ?>
-      </select>
-    </label>
-
-    <label>Asignatura:
-      <select name="id_asignatura">
-        <option value="">Todas</option>
-        <?php
-        $asignaturas = $conexion->query("SELECT id_asignatura, nombre FROM asignatura ORDER BY nombre");
-        while ($a = $asignaturas->fetch_assoc()) {
-          $sel = ($idAsignatura == $a['id_asignatura']) ? 'selected' : '';
-          echo "<option value='{$a['id_asignatura']}' $sel>{$a['nombre']}</option>";
-        }
-        ?>
-      </select>
-    </label>
-
-    <button type="submit">🔍 Consultar</button>
-    <a href="<?= BASE_URL ?>/index.php?modulo=sesion&accion=crear" class="boton-agregar">➕ Nueva sesión</a>
-  </form>
+  <div class="acciones-superior">
+    <a href="<?= BASE_URL ?>/sesiones/crear" class="boton-agregar">➕ Nueva sesión</a>
+  </div>
 
   <table>
     <thead>
       <tr>
         <th>#</th>
         <th>Estudiante</th>
-        <th>Asignatura</th>
         <th>Tutor</th>
+        <th>Asignatura</th>
         <th>Fecha y hora</th>
         <th>Observaciones</th>
+        <th>Videollamada</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <?php $i = 1; while ($s = $sesiones->fetch_assoc()): ?>
-        <tr>
-          <td><?= $i++ ?></td>
-          <td><?= $s['estudiante'] ?></td>
-          <td><?= $s['asignatura'] ?></td>
-          <td><?= $s['tutor'] ?></td>
-          <td><?= date('d/m/Y H:i', strtotime($s['fecha_hora'])) ?></td>
-          <td><?= $s['observaciones'] ?></td>
-          <td>
-            <a href="<?= BASE_URL ?>/index.php?modulo=sesion&accion=editar&id=<?= $s['id_sesion'] ?>" class="boton-editar">✏️</a>
-            <a href="<?= BASE_URL ?>/index.php?modulo=sesion&accion=eliminar&id=<?= $s['id_sesion'] ?>" class="boton-eliminar" onclick="return confirm('¿Eliminar esta sesión?')">🗑️</a>
-          </td>
-        </tr>
-      <?php endwhile; ?>
-    </tbody>
-  </table>
-
-  <?php if (!empty($reporte) && $reporte->num_rows > 0): ?>
-    <h3>📊 Resumen por estudiante</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Estudiante</th>
-          <th>Total sesiones</th>
-          <th>Promedio por día</th>
-          <th>Nivel</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php 
-          $i = 1;
-          $top = [];
-          $labels = [];
-          $valores = [];
-          $reporte->data_seek(0);
-          while ($r = $reporte->fetch_assoc()):
-            $nivel = $r['total_sesiones'] >= 7 ? 'Alto' : ($r['total_sesiones'] >= 4 ? 'Medio' : 'Bajo');
-            if ($i <= 3) $top[] = "{$r['estudiante']} ({$r['total_sesiones']} sesiones)";
-            $labels[] = $r['estudiante'];
-            $valores[] = $r['total_sesiones'];
-        ?>
+      <?php 
+      if ($sesiones && $sesiones->num_rows > 0): 
+        $i = 1;
+        while ($s = $sesiones->fetch_assoc()): ?>
           <tr>
             <td><?= $i++ ?></td>
-            <td><?= $r['estudiante'] ?></td>
-            <td><?= $r['total_sesiones'] ?></td>
-            <td><?= $r['promedio'] ?></td>
-            <td><?= $nivel ?></td>
+            <td><?= htmlspecialchars($s['estudiante']) ?></td>
+            <td><?= htmlspecialchars($s['tutor']) ?></td>
+            <td><?= htmlspecialchars($s['asignatura']) ?></td>
+            <td><?= date('d/m/Y H:i', strtotime($s['fecha_hora'])) ?></td>
+            <td><?= htmlspecialchars($s['observaciones']) ?></td>
+            <td>
+              <a href="https://meet.google.com/sesion<?= $s['id_sesion'] ?>" target="_blank" class="boton-link">🎥 Unirse</a>
+            </td>
+            <td>
+              <a href="<?= BASE_URL ?>/sesiones/editar?id=<?= $s['id_sesion'] ?>" class="boton-editar" title="Editar sesión">✏️</a>
+              <a href="#" 
+                 class="boton-eliminar" 
+                 title="Eliminar sesión"
+                 onclick="mostrarModal('<?= BASE_URL ?>/sesiones/eliminar?id=<?= $s['id_sesion'] ?>')">🗑️</a>
+            </td>
           </tr>
-        <?php endwhile; ?>
-      </tbody>
-    </table>
-
-    <h4>📌 Top <?= count($top) ?> estudiantes con más sesiones:</h4>
-    <ul>
-      <?php foreach ($top as $t): ?>
-        <li><?= $t ?></li>
-      <?php endforeach; ?>
-    </ul>
-
-    <form method="POST" action="exportarSesionesCSV.php" target="_blank">
-      <input type="hidden" name="fecha_inicio" value="<?= $fechaInicio ?>">
-      <input type="hidden" name="fecha_fin" value="<?= $fechaFin ?>">
-      <input type="hidden" name="id_tutor" value="<?= $idTutor ?>">
-      <input type="hidden" name="id_asignatura" value="<?= $idAsignatura ?>">
-      <button type="submit">📁 Exportar a CSV</button>
-    </form>
-
-    <canvas id="graficoSesiones" width="800" height="300" style="margin-top: 30px;"></canvas>
-    <script>
-      const ctx = document.getElementById('graficoSesiones').getContext('2d');
-      const chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: <?= json_encode($labels) ?>,
-          datasets: [{
-            label: 'Total de sesiones',
-            data: <?= json_encode($valores) ?>,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)'
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            title: { display: true, text: 'Sesiones por estudiante' }
-          }
-        }
-      });
-    </script>
-  <?php endif; ?>
+        <?php endwhile;
+      else: ?>
+        <tr>
+          <td colspan="8" class="no-sesiones">
+            ⚠️ No hay sesiones registradas.
+          </td>
+        </tr>
+      <?php endif; ?>
+    </tbody>
+  </table>
 </section>
+
+<div class="modal-confirmar" id="modalConfirmar">
+  <div class="modal-contenido">
+    <h3>⚠️ Confirmar eliminación</h3>
+    <p>¿Deseas eliminar esta sesión?</p>
+    <div class="modal-botones">
+      <button class="btn-confirmar btn-si" id="btnSi">Sí, eliminar</button>
+      <button class="btn-confirmar btn-no" id="btnNo">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let eliminarUrl = '';
+
+  function mostrarModal(url) {
+    eliminarUrl = url;
+    document.getElementById('modalConfirmar').style.display = 'flex';
+  }
+
+  document.getElementById('btnSi').addEventListener('click', () => {
+    window.location.href = eliminarUrl;
+  });
+
+  document.getElementById('btnNo').addEventListener('click', () => {
+    document.getElementById('modalConfirmar').style.display = 'none';
+  });
+</script>
 </body>
 </html>
